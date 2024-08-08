@@ -84,6 +84,15 @@ class block_myoverview extends block_base {
     }
 
     /**
+     * Controls whether multiple block instances are allowed.
+     *
+     * @return bool
+     */
+    public function instance_allow_multiple(): bool {
+        return true;
+    }
+
+    /**
      * Return the plugin config settings for external functions.
      *
      * @return stdClass the configs for both the block instance and plugin
