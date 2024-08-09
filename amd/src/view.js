@@ -98,7 +98,7 @@ const DEFAULT_PAGED_CONTENT_CONFIG = {
  * @return {promise} Resolved with an array of courses.
  */
 const getMyCourses = (filters, limit) => {
-    return Repository.getEnrolledCoursesByTimeline({
+    return Repository.getEnrolledCoursesByRole({
         role: filters.role,
         offset: courseOffset,
         limit: limit,
@@ -118,7 +118,7 @@ const getMyCourses = (filters, limit) => {
  * @return {promise} Resolved with an array of courses.
  */
 const getSearchMyCourses = (filters, limit, searchValue) => {
-    return Repository.getEnrolledCoursesByTimeline({
+    return Repository.getEnrolledCoursesByRole({
         role: filters.role,
         offset: courseOffset,
         limit: limit,

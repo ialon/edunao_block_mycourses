@@ -32,13 +32,13 @@ import Ajax from 'core/ajax';
  * int Offset               offset for pagination
  * int sort                 sort by lastaccess or name
  *
- * @method getEnrolledCoursesByTimeline
+ * @method getEnrolledCoursesByRole
  * @param {object} args The request arguments
  * @return {promise} Resolved with an array of courses
  */
-export const getEnrolledCoursesByTimeline = args => {
+export const getEnrolledCoursesByRole = args => {
     const request = {
-        methodname: 'core_course_get_enrolled_courses_by_timeline_classification',
+        methodname: 'block_myoverview_get_enrolled_courses_by_role',
         args: args
     };
 
