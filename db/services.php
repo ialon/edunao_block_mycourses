@@ -15,15 +15,23 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details for the My overview block.
+ * Web service for My courses block
  *
- * @package    block_myoverview
- * @copyright  Mark Nelson <markn@moodle.com>
+ * @package    block_mycourses
+ * @copyright  2024 Josemaria Bolanos <josemabol@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2023100901;         // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2023100400;         // Requires this Moodle version.
-$plugin->component = 'block_myoverview'; // Full name of the plugin (used for diagnostics).
+$functions = array(
+    'block_myoverview_get_enrolled_courses_by_role' => array(
+        'classname' => 'block_myoverview\external',
+        'methodname' => 'get_enrolled_courses_by_role',
+        'classpath' => '',
+        'description' => 'List of courses a user is enroled in with a specific role.',
+        'type' => 'read',
+        'ajax' => true,
+        'services' => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
+    ),
+);
