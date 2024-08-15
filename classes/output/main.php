@@ -41,6 +41,13 @@ require_once($CFG->dirroot . '/blocks/myoverview/lib.php');
 class main implements renderable, templatable {
 
     /**
+     * Store the block config object.
+     *
+     * @var stdClass
+     */
+    private $config;
+
+    /**
      * Store the grouping preference.
      *
      * @var string String matching the grouping constants defined in myoverview/lib.php
@@ -159,6 +166,7 @@ class main implements renderable, templatable {
      * main constructor.
      * Initialize the user preferences
      *
+     * @param stdClass $instanceconfig Block config object
      * @param string $grouping Grouping user preference
      * @param string $sort Sort user preference
      * @param string $view Display user preference
@@ -167,8 +175,12 @@ class main implements renderable, templatable {
      *
      * @throws \dml_exception
      */
-    public function __construct($grouping, $sort, $view, $paging, $customfieldvalue = null) {
+    public function __construct($instanceconfig, $grouping, $sort, $view, $paging, $customfieldvalue = null) {
         global $CFG;
+
+        // Specific configuration for the block instance.
+        $this->config = $instanceconfig;
+
         // Get plugin config.
         $config = get_config('block_myoverview');
 
@@ -465,6 +477,7 @@ class main implements renderable, templatable {
             'newcourseurl' => $newcourseurl,
             'grouping' => $this->grouping,
             'sort' => $sort,
+            'role' => $this->config->myrole,
             // If the user preference display option is not available, default to first available layout.
             'view' => in_array($this->view, $this->layouts) ? $this->view : reset($this->layouts),
             'paging' => $this->paging,

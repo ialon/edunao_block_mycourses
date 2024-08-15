@@ -25,11 +25,13 @@
         "newcourseurl": "https://moodlesite/course/edit.php",
         "grouping": "all",
         "sort": "fullname",
-        "view": "card"
+        "view": "card",
+        "role": "teacher"
     }
 }}
 <div id="courses-view-{{uniqid}}"
     data-region="courses-view"
+    data-user-role="{{role}}"
     data-display="{{view}}"
     data-grouping="{{grouping}}"
     data-customfieldname="{{customfieldname}}"

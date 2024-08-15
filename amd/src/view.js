@@ -72,6 +72,7 @@ let namespace = null;
 const getFilterValues = root => {
     const courseRegion = root.find(SELECTORS.courseView.region);
     return {
+        role: courseRegion.attr('data-user-role'),
         display: courseRegion.attr('data-display'),
         grouping: courseRegion.attr('data-grouping'),
         sort: courseRegion.attr('data-sort'),
@@ -98,6 +99,7 @@ const DEFAULT_PAGED_CONTENT_CONFIG = {
  */
 const getMyCourses = (filters, limit) => {
     return Repository.getEnrolledCoursesByTimeline({
+        role: filters.role,
         offset: courseOffset,
         limit: limit,
         classification: filters.grouping,
@@ -117,6 +119,7 @@ const getMyCourses = (filters, limit) => {
  */
 const getSearchMyCourses = (filters, limit, searchValue) => {
     return Repository.getEnrolledCoursesByTimeline({
+        role: filters.role,
         offset: courseOffset,
         limit: limit,
         classification: 'search',
