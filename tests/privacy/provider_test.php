@@ -86,7 +86,7 @@ class provider_test extends \core_privacy\tests\provider_testcase {
             array('block_myoverview_user_view_preference', 'card', ''),
             array('block_myoverview_user_view_preference', 'list', ''),
             array('block_myoverview_user_view_preference', 'summary', ''),
-            array('block_myoverview_user_paging_preference', 12, 12)
+            array('block_myoverview_user_paging_preference', 5, 5)
         );
     }
 

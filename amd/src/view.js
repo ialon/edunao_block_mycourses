@@ -51,7 +51,7 @@ const GROUPINGS = {
     GROUPING_HIDDEN: 'hidden'
 };
 
-const NUMCOURSES_PERPAGE = [12, 24, 48, 96, 0];
+const NUMCOURSES_PERPAGE = [5, 10, 15, 20, 0];
 
 let loadedPages = [];
 

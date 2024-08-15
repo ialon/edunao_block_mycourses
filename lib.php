@@ -59,10 +59,10 @@ define('BLOCK_MYOVERVIEW_VIEW_SUMMARY', 'summary');
 /**
  * Constants for the user paging preferences
  */
-define('BLOCK_MYOVERVIEW_PAGING_12', 12);
-define('BLOCK_MYOVERVIEW_PAGING_24', 24);
-define('BLOCK_MYOVERVIEW_PAGING_48', 48);
-define('BLOCK_MYOVERVIEW_PAGING_96', 96);
+define('BLOCK_MYOVERVIEW_PAGING_5', 5);
+define('BLOCK_MYOVERVIEW_PAGING_10', 10);
+define('BLOCK_MYOVERVIEW_PAGING_15', 15);
+define('BLOCK_MYOVERVIEW_PAGING_20', 20);
 define('BLOCK_MYOVERVIEW_PAGING_ALL', 0);
 
 /**
@@ -138,13 +138,13 @@ function block_myoverview_user_preferences(): array {
 
     $preferences['block_myoverview_user_paging_preference'] = array(
         'null' => NULL_NOT_ALLOWED,
-        'default' => BLOCK_MYOVERVIEW_PAGING_12,
+        'default' => BLOCK_MYOVERVIEW_PAGING_5,
         'type' => PARAM_INT,
         'choices' => array(
-            BLOCK_MYOVERVIEW_PAGING_12,
-            BLOCK_MYOVERVIEW_PAGING_24,
-            BLOCK_MYOVERVIEW_PAGING_48,
-            BLOCK_MYOVERVIEW_PAGING_96,
+            BLOCK_MYOVERVIEW_PAGING_5,
+            BLOCK_MYOVERVIEW_PAGING_10,
+            BLOCK_MYOVERVIEW_PAGING_15,
+            BLOCK_MYOVERVIEW_PAGING_20,
             BLOCK_MYOVERVIEW_PAGING_ALL
         ),
         'permissioncallback' => [core_user::class, 'is_current_user'],

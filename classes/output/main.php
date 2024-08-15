@@ -211,7 +211,7 @@ class main implements renderable, templatable {
         if (!is_null($paging) && $paging == BLOCK_MYOVERVIEW_PAGING_ALL) {
             $this->paging = BLOCK_MYOVERVIEW_PAGING_ALL;
         } else {
-            $this->paging = $paging ? $paging : BLOCK_MYOVERVIEW_PAGING_12;
+            $this->paging = $paging ? $paging : BLOCK_MYOVERVIEW_PAGING_5;
         }
 
         // Check and remember if the course categories should be shown or not.
