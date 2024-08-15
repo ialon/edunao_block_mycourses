@@ -24,6 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+define('BLOCK_MYOVERVIEW_ROLE_TEACHER', 'teacher');
+define('BLOCK_MYOVERVIEW_ROLE_STUDENT', 'student');
+
 /**
  * My overview block class.
  *
@@ -38,6 +41,7 @@ class block_myoverview extends block_base {
      */
     public function init() {
         $this->title = get_string('pluginname', 'block_myoverview');
+        $this->config = new stdClass();
     }
 
     /**
@@ -81,6 +85,26 @@ class block_myoverview extends block_base {
      */
     public function has_config() {
         return true;
+    }
+
+    /**
+     * allow instances to have their own configuration
+     *
+     * @return boolean
+     */
+    public function instance_allow_config() {
+        return true;
+    }
+
+    /**
+     * instance specialisations (must have instance allow config true)
+     *
+     */
+    public function specialization() {
+        // Set default values for new instances.
+        if (empty($this->config->myrole)) {
+            $this->config->myrole = BLOCK_MYOVERVIEW_ROLE_TEACHER;
+        }
     }
 
     /**

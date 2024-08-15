@@ -100,3 +100,7 @@ $string['clearsearch'] = "Clear search";
 $string['aria:lastaccessed'] = 'Sort courses by last accessed date';
 $string['aria:shortname'] = 'Sort courses by course short name';
 $string['aria:title'] = 'Sort courses by course name';
+
+$string['displayrole'] = 'My courses as';
+$string['teacher'] = 'Teacher';
+$string['student'] = 'Student';
