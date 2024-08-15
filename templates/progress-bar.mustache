@@ -21,10 +21,14 @@
 
     Example context (json):
     {
-        "progress": 50
+        "progress": 50,
+        "isteacher": false
     }
 }}
-<div class="progress-text">
-    <span class="sr-only">{{#str}}aria:courseprogress, block_myoverview{{/str}}</span>
-    {{#str}}completepercent, block_myoverview, <span>{{progress}}</span>{{/str}}
-</div>
+{{^isteacher}}
+    <div class="progress-text">
+        <span class="sr-only">{{#str}}aria:courseprogress, block_myoverview{{/str}}</span>
+        {{#str}}completepercent, block_myoverview, <span>{{progress}}</span>{{/str}}
+    </div>
+{{/isteacher}}
+
