@@ -46,10 +46,7 @@ class renderer extends plugin_renderer_base {
         global $USER;
 
         if (!count(enrol_get_all_users_courses($USER->id, true))) {
-            return $this->render_from_template(
-                'block_myoverview/zero-state',
-                $main->export_for_zero_state_template($this)
-            );
+            return NULL;
         }
         return $this->render_from_template('block_myoverview/main', $main->export_for_template($this));
     }
