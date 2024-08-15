@@ -386,7 +386,7 @@ class main implements renderable, templatable {
         if (!$fieldid) {
             return [];
         }
-        $courses = enrol_get_all_users_courses($USER->id, true);
+        $courses = enrol_get_users_courses_by_role($this->config->myrole, $USER->id, true);
         if (!$courses) {
             return [];
         }
@@ -472,7 +472,7 @@ class main implements renderable, templatable {
         }
 
         $defaultvariables = [
-            'totalcoursecount' => count(enrol_get_all_users_courses($USER->id, true)),
+            'totalcoursecount' => count(enrol_get_users_courses_by_role($this->config->myrole, $USER->id, true)),
             'nocoursesimg' => $nocoursesurl,
             'newcourseurl' => $newcourseurl,
             'grouping' => $this->grouping,

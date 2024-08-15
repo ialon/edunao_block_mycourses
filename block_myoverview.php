@@ -24,8 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-define('BLOCK_MYOVERVIEW_ROLE_TEACHER', 'teacher');
-define('BLOCK_MYOVERVIEW_ROLE_STUDENT', 'student');
+require_once($CFG->dirroot . '/blocks/myoverview/lib.php');
 
 /**
  * My overview block class.

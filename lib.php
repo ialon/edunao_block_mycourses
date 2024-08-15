@@ -72,6 +72,12 @@ define('BLOCK_MYOVERVIEW_DISPLAY_CATEGORIES_ON', 'on');
 define('BLOCK_MYOVERVIEW_DISPLAY_CATEGORIES_OFF', 'off');
 
 /**
+ * Constants for the user role
+ */
+define('BLOCK_MYOVERVIEW_ROLE_TEACHER', 'teacher');
+define('BLOCK_MYOVERVIEW_ROLE_STUDENT', 'student');
+
+/**
  * Get the current user preferences that are available
  *
  * @uses core_user::is_current_user
@@ -162,4 +168,76 @@ function block_myoverview_pre_course_delete(\stdClass $course) {
     // Removing any favourited courses which have been created for users, for this course.
     $service = \core_favourites\service_factory::get_service_for_component('core_course');
     $service->delete_favourites_by_type_and_item('courses', $course->id);
+}
+
+/**
+ * Returns list of courses user is enrolled into as a specific role.
+ *
+ * Note: Use {@link enrol_get_all_users_courses()} if you need the list without any capability checks.
+ *
+ * The $fields param is a list of field names to ADD so name just the fields you really need,
+ * which will be added and uniq'd.
+ *
+ * @param string $role Shortname of the role (teacher or student).
+ * @param int $userid User whose courses are returned, defaults to the current user.
+ * @param bool $onlyactive Return only active enrolments in courses user may see.
+ * @param string|array $fields Extra fields to be returned (array or comma-separated list).
+ * @param string|null $sort Comma separated list of fields to sort by, defaults to respecting navsortmycoursessort.
+ * @return array
+ */
+function enrol_get_users_courses_by_role($role, $userid, $onlyactive = false, $fields = null, $sort = null) {
+    // Get all the courses.
+    $courses = enrol_get_all_users_courses($userid, $onlyactive, $fields, $sort);
+
+    return filter_courses_by_role($courses, $role, $userid);
+}
+
+/**
+ * Filters an array of courses based on the user's role.
+ *
+ * This function takes an array of courses and filters it based on the user's role. It checks the role archetype and retrieves the role IDs associated with the archetype. Then, it checks if the user has any role assignments with the retrieved role IDs in the context of each course. If the user has no role assignments for a course, that course is removed from the array.
+ *
+ * @param array|Traversable $courses An array of courses to be filtered.
+ * @param string $role The role of the user.
+ * @param int $userid The ID of the user.
+ * @return array The filtered array of courses.
+ */
+function filter_courses_by_role($courses, $role, $userid) {
+    global $DB;
+
+    // Find the archetype for the role.
+    if ($role === BLOCK_MYOVERVIEW_ROLE_TEACHER) {
+        $archetypes = ['editingteacher', 'teacher'];
+    } else if ($role === BLOCK_MYOVERVIEW_ROLE_STUDENT) {
+        $archetypes = ['student'];
+    } else {
+        return [];
+    }
+
+    $filtered = [];
+
+    // Get the role ids for the archetypes.
+    list($insql, $params) = $DB->get_in_or_equal($archetypes, SQL_PARAMS_NAMED, 'r');
+    $sql = "SELECT r.id, r.shortname
+            FROM {role} r
+            WHERE r.archetype $insql";
+    $roleids = $DB->get_records_sql_menu($sql, $params);
+
+    foreach ($courses as $course) {
+        $context = context_course::instance($course->id);
+
+        list($insql, $params) = $DB->get_in_or_equal(array_keys($roleids), SQL_PARAMS_NAMED, 'r');
+        $sql = "SELECT ra.id
+                    FROM {role_assignments} ra
+                    WHERE ra.roleid $insql AND ra.userid = :userid AND ra.contextid = :contextid";
+        $params['userid'] = $userid;
+        $params['contextid'] = $context->id;
+        $assignments = $DB->get_records_sql($sql, $params);
+
+        if (!empty($assignments)) {
+            $filtered[] = $course;
+        }
+    }
+
+    return $filtered;
 }

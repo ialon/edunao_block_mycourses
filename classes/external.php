@@ -82,7 +82,7 @@ class external extends external_api {
     ) {
         global $CFG, $PAGE, $DB, $USER;
         require_once($CFG->dirroot . '/course/lib.php');
-        require_once($CFG->dirroot . '/blocks/mycourses/lib.php');
+        require_once($CFG->dirroot . '/blocks/myoverview/lib.php');
 
         $params = self::validate_parameters(self::get_enrolled_courses_by_role_parameters(),
             array(
