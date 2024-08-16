@@ -26,21 +26,26 @@
 <div id="block-myoverview-{{uniqid}}" class="block-myoverview block-cards" data-region="myoverview" role="navigation">
     <hr class="mt-0"/>
 
-    {{^isteacher}}
-        <div role="search" data-region="filter" class="d-flex align-items-center my-2" aria-label="{{#str}} aria:controls, block_myoverview {{/str}}">
-            <div class="row no-gutters">
+    <div role="search" data-region="filter" class="d-flex align-items-center my-2" aria-label="{{#str}} aria:controls, block_myoverview {{/str}}">
+        <div class="row no-gutters">
+
+            {{^isteacher}}
                 {{> block_myoverview/nav-grouping-selector }}
+            {{/isteacher}}
 
+            {{^isteacher}}
                 {{> block_myoverview/nav-search-widget }}
+            {{/isteacher}}
 
-                {{> block_myoverview/nav-sort-selector }}
+            {{> block_myoverview/nav-sort-selector }}
 
+            {{^isteacher}}
                 {{#displaydropdown}}
                     {{> block_myoverview/nav-display-selector }}
                 {{/displaydropdown}}
-            </div>
+            {{/isteacher}}
         </div>
-    {{/isteacher}}
+    </div>
 
     <div class="container-fluid p-0">
         {{> block_myoverview/courses-view }}

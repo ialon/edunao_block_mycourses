@@ -123,6 +123,42 @@ const registerSelector = root => {
 };
 
 /**
+ * Event listener for the sort selector
+ *
+ * @param {object} root The root element for the overview block
+ */
+const registerTeacherSelector = root => {
+
+    const Selector = root.find(SELECTORS.FILTERS);
+
+    CustomEvents.define(Selector, [CustomEvents.events.activate]);
+
+    Selector.on(
+        CustomEvents.events.activate,
+        SELECTORS.FILTER_OPTION,
+        (e, data) => {
+            const option = $(e.target);
+
+            if (option.hasClass('active')) {
+                // If it's already active then we don't need to do anything.
+                return;
+            }
+
+            const filter = option.attr('data-filter');
+            const pref = option.attr('data-pref');
+
+            root.find(SELECTORS.courseView.region).attr('data-' + filter, option.attr('data-value'));
+            updatePreferences(filter, pref);
+
+            // Reset the views.
+            View.init(root);
+
+            data.originalEvent.preventDefault();
+        }
+    );
+};
+
+/**
  * Initialise the timeline view navigation by adding event listeners to
  * the navigation elements.
  *
@@ -136,5 +172,8 @@ export const init = root => {
 
     if (role !== 'teacher') {
         registerSelector(root);
+    } else {
+        // Only sort is available for teachers.
+        registerTeacherSelector(root);
     }
 };
