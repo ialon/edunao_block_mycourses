@@ -130,5 +130,11 @@ const registerSelector = root => {
  */
 export const init = root => {
     root = $(root);
-    registerSelector(root);
+
+    const courseRegion = root.find(SELECTORS.courseView.region);
+    let role = courseRegion.attr('data-user-role');
+
+    if (role !== 'teacher') {
+        registerSelector(root);
+    }
 };

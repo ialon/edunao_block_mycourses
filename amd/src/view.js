@@ -53,6 +53,8 @@ const GROUPINGS = {
 
 const NUMCOURSES_PERPAGE = [5, 10, 15, 20, 0];
 
+const ROLE_TEACHER = 'teacher';
+
 let loadedPages = [];
 
 let courseOffset = 0;
@@ -494,7 +496,7 @@ const renderCourses = (root, coursesData) => {
         // Let's hijack this loop and add if the block is for teacher or student.
         coursesData.courses = coursesData.courses.map(course => {
             course.showcoursecategory = filters.displaycategories === 'on';
-            course.isteacher = filters.role === 'teacher';
+            course.isteacher = filters.role === ROLE_TEACHER;
             return course;
         });
 
@@ -824,9 +826,14 @@ export const init = root => {
     lastPage = 0;
     courseOffset = 0;
 
+    const courseRegion = root.find(SELECTORS.courseView.region);
+    let role = courseRegion.attr('data-user-role');
+
     if (!root.attr('data-init')) {
-        const page = document.querySelector(SELECTORS.region.selectBlock);
-        registerEventListeners(root, page);
+        if (role !== ROLE_TEACHER) {
+            const page = document.querySelector(SELECTORS.region.selectBlock);
+            registerEventListeners(root, page);
+        }
         namespace = "block_myoverview_" + root.attr('id') + "_" + Math.random();
         root.attr('data-init', true);
     }

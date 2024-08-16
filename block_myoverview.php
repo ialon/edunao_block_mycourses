@@ -123,6 +123,8 @@ class block_myoverview extends block_base {
      * @since Moodle 3.8
      */
     public function get_config_for_external() {
+        $instanceconfig = $this->config;
+
         // Return all settings for all users since it is safe (no private keys, etc..).
         $configs = get_config('block_myoverview');
 
@@ -134,7 +136,7 @@ class block_myoverview extends block_base {
             $paging = get_user_preferences('block_myoverview_user_paging_preference');
             $customfieldvalue = get_user_preferences('block_myoverview_user_grouping_customfieldvalue_preference');
 
-            $renderable = new \block_myoverview\output\main($group, $sort, $view, $paging, $customfieldvalue);
+            $renderable = new \block_myoverview\output\main($instanceconfig, $group, $sort, $view, $paging, $customfieldvalue);
             $customfieldsexport = $renderable->get_customfield_values_for_export();
             if (!empty($customfieldsexport)) {
                 $configs->customfieldsexport = json_encode($customfieldsexport);

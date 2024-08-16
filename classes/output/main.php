@@ -309,8 +309,9 @@ class main implements renderable, templatable {
      *
      */
     public function set_available_layouts() {
-
-        if ($config = get_config('block_myoverview', 'layouts')) {
+        if ($this->config->myrole == BLOCK_MYOVERVIEW_ROLE_TEACHER) {
+            $this->layouts = array(BLOCK_MYOVERVIEW_VIEW_LIST);
+        } else if ($config = get_config('block_myoverview', 'layouts')) {
             $this->layouts = explode(',', $config);
         } else {
             $this->layouts = array(BLOCK_MYOVERVIEW_VIEW_CARD);
@@ -478,6 +479,7 @@ class main implements renderable, templatable {
             'grouping' => $this->grouping,
             'sort' => $sort,
             'role' => $this->config->myrole,
+            'isteacher' => $this->config->myrole == BLOCK_MYOVERVIEW_ROLE_TEACHER,
             // If the user preference display option is not available, default to first available layout.
             'view' => in_array($this->view, $this->layouts) ? $this->view : reset($this->layouts),
             'paging' => $this->paging,
