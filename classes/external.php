@@ -22,6 +22,7 @@ use core_external\external_function_parameters;
 use core_external\external_single_structure;
 use core_external\external_multiple_structure;
 use core_external\external_value;
+use core_external\external_warnings;
 use context_user;
 use context_course;
 
@@ -233,6 +234,83 @@ class external extends external_api {
             array(
                 'courses' => new external_multiple_structure(course_summary_exporter::get_read_structure(), 'Course'),
                 'nextoffset' => new external_value(PARAM_INT, 'Offset for the next request')
+            )
+        );
+    }
+
+    /**
+     * Update courses
+     *
+     * @return external_function_parameters
+     * @since Moodle 2.5
+     */
+    public static function update_courses_parameters() {
+        return new external_function_parameters(
+            array(
+                'courses' => new external_multiple_structure(
+                    new external_single_structure(
+                        array(
+                            'id' => new external_value(PARAM_INT, 'ID of the course'),
+                            'visible' => new external_value(PARAM_INT, '1: available to student, 0:not available', VALUE_OPTIONAL)
+                        )
+                    ), 'courses to update'
+                )
+            )
+        );
+    }
+
+    /**
+     * Update courses
+     *
+     * @param array $courses
+     * @since Moodle 2.5
+     */
+    public static function update_courses($courses) {
+        global $CFG;
+        require_once($CFG->dirroot . "/course/lib.php");
+        $warnings = array();
+
+        $params = self::validate_parameters(self::update_courses_parameters(),
+                        array('courses' => $courses));
+
+        foreach ($params['courses'] as $course) {
+            // Catch any exception while updating course and return as warning to user.
+            try {
+                // Ensure the current user is allowed to run this function.
+                $context = context_course::instance($course['id'], MUST_EXIST);
+                self::validate_context($context);
+
+                // Update course if user has all required capabilities.
+                update_course((object) $course);
+            } catch (\Exception $e) {
+                $warning = array();
+                $warning['item'] = 'course';
+                $warning['itemid'] = $course['id'];
+                if ($e instanceof moodle_exception) {
+                    $warning['warningcode'] = $e->errorcode;
+                } else {
+                    $warning['warningcode'] = $e->getCode();
+                }
+                $warning['message'] = $e->getMessage();
+                $warnings[] = $warning;
+            }
+        }
+
+        $result = array();
+        $result['warnings'] = $warnings;
+        return $result;
+    }
+
+    /**
+     * Returns description of method result value
+     *
+     * @return \core_external\external_description
+     * @since Moodle 2.5
+     */
+    public static function update_courses_returns() {
+        return new external_single_structure(
+            array(
+                'warnings' => new external_warnings()
             )
         );
     }

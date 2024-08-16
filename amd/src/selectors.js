@@ -30,6 +30,8 @@ export default {
     DISPLAY_OPTION: '[data-display-option]',
     ACTION_HIDE_COURSE: '[data-action="hide-course"]',
     ACTION_SHOW_COURSE: '[data-action="show-course"]',
+    ACTION_INVISIBLE_COURSE: '[data-action="invisible-course"]',
+    ACTION_VISIBLE_COURSE: '[data-action="visible-course"]',
     ACTION_ADD_FAVOURITE: '[data-action="add-favourite"]',
     ACTION_REMOVE_FAVOURITE: '[data-action="remove-favourite"]',
     FAVOURITE_ICON: '[data-region="favourite-icon"]',

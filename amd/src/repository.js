@@ -62,3 +62,21 @@ export const setFavouriteCourses = args => {
 
     return Ajax.call([request])[0];
 };
+
+/**
+ * Set the visibility for a course
+ *
+ * Valid args are:
+ * Array courses list of course id numbers.
+ *
+ * @param {Object} args Arguments send to the webservice.
+ * @return {Promise} Resolve with warnings.
+ */
+export const setInvisibilityCourse = args => {
+    const request = {
+        methodname: 'block_myoverview_update_courses',
+        args: args
+    };
+
+    return Ajax.call([request])[0];
+};

@@ -355,6 +355,103 @@ const setCourseHiddenState = (courseId, status) => {
 };
 
 /**
+ * Get the action menu item
+ *
+ * @param {Object} root The course overview container
+ * @param {Number} courseId Course id.
+ * @return {Object} The make invisible course menu item.
+ */
+const getInvisibleCourseMenuItem = (root, courseId) => {
+    return root.find('[data-action="invisible-course"][data-course-id="' + courseId + '"]');
+};
+
+/**
+ * Get the action menu item
+ *
+ * @param {Object} root The course overview container
+ * @param {Number} courseId Course id.
+ * @return {Object} The make visible course menu item.
+ */
+const getVisibleCourseMenuItem = (root, courseId) => {
+    return root.find('[data-action="visible-course"][data-course-id="' + courseId + '"]');
+};
+
+/**
+ * Make course invisible
+ *
+ * @param {Object} root The course overview container
+ * @param {Number} courseId Course id number
+ */
+const invisibleCourse = (root, courseId) => {
+    const hideAction = getInvisibleCourseMenuItem(root, courseId);
+    const showAction = getVisibleCourseMenuItem(root, courseId);
+
+    setCourseInvisibleState(courseId, 0).then(success => {
+        if (success) {
+            hideAction.addClass('hidden');
+            showAction.removeClass('hidden');
+            reset(root);
+        } else {
+            Notification.alert('Hiding course failed', 'Could not change visibility state');
+        }
+        return;
+    }).catch(Notification.exception);
+};
+
+/**
+ * Make course visible
+ *
+ * @param {Object} root The course overview container
+ * @param {Number} courseId Course id number
+ */
+const visibleCourse = (root, courseId) => {
+    const hideAction = getInvisibleCourseMenuItem(root, courseId);
+    const showAction = getVisibleCourseMenuItem(root, courseId);
+
+    setCourseInvisibleState(courseId, 1).then(success => {
+        if (success) {
+            hideAction.removeClass('hidden');
+            showAction.addClass('hidden');
+            reset(root);
+        } else {
+            Notification.alert('Showing course failed', 'Could not change visibility state');
+        }
+        return;
+    }).catch(Notification.exception);
+};
+
+/**
+ * Set the courses visibility and push to repository
+ *
+ * @param {Number} courseId Course id.
+ * @param {Number} status new visibility.
+ * @return {Promise} Repository promise.
+ */
+const setCourseInvisibleState = (courseId, status) => {
+    return Repository.setInvisibilityCourse({
+        courses: [
+            {
+                'id': courseId,
+                'visible': status
+            }
+        ]
+    }).then(result => {
+        if (result.warnings.length === 0) {
+            loadedPages.forEach(courseList => {
+                courseList.courses.forEach((course, index) => {
+                    if (course.id == courseId) {
+                        courseList.courses[index].visible = status;
+                    }
+                });
+            });
+            return true;
+        } else {
+            return false;
+        }
+    }).catch(Notification.exception);
+};
+
+/**
  * Reset the loadedPages dataset to take into account the hidden element
  *
  * @param {Object} root The course overview container
@@ -796,6 +893,32 @@ const registerEventListeners = (root, page) => {
 };
 
 /**
+ * Listen to, and handle events for the myoverview block.
+ *
+ * @param {Object} root The myoverview block container element.
+ */
+const registerTeacherEventListeners = (root) => {
+
+    CustomEvents.define(root, [
+        CustomEvents.events.activate
+    ]);
+
+    root.on(CustomEvents.events.activate, SELECTORS.ACTION_INVISIBLE_COURSE, (e, data) => {
+        const target = $(e.target).closest(SELECTORS.ACTION_INVISIBLE_COURSE);
+        const courseId = getCourseId(target);
+        invisibleCourse(root, courseId);
+        data.originalEvent.preventDefault();
+    });
+
+    root.on(CustomEvents.events.activate, SELECTORS.ACTION_VISIBLE_COURSE, (e, data) => {
+        const target = $(e.target).closest(SELECTORS.ACTION_VISIBLE_COURSE);
+        const courseId = getCourseId(target);
+        visibleCourse(root, courseId);
+        data.originalEvent.preventDefault();
+    });
+};
+
+/**
  * Reset the search icon and trigger the init for the block.
  *
  * @param {HTMLElement} clearIcon Our closing icon to manipulate.
@@ -833,7 +956,10 @@ export const init = root => {
         if (role !== ROLE_TEACHER) {
             const page = document.querySelector(SELECTORS.region.selectBlock);
             registerEventListeners(root, page);
+        } else {
+            registerTeacherEventListeners(root);
         }
+
         namespace = "block_myoverview_" + root.attr('id') + "_" + Math.random();
         root.attr('data-init', true);
     }

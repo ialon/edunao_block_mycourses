@@ -34,4 +34,13 @@ $functions = array(
         'ajax' => true,
         'services' => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
     ),
+    'block_myoverview_update_courses' => array(
+        'classname' => 'block_myoverview\external',
+        'methodname' => 'update_courses',
+        'classpath' => '',
+        'description' => 'Update courses',
+        'type' => 'write',
+        'ajax' => true,
+        'services' => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
+    ),
 );
