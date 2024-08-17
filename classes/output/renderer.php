@@ -45,7 +45,8 @@ class renderer extends plugin_renderer_base {
     public function render_main(main $main) {
         global $USER;
 
-        if (!count(enrol_get_all_users_courses($USER->id, true))) {
+        $courses = enrol_get_users_courses_by_role($main->config->myrole, $USER->id, true);
+        if (!$courses) {
             return NULL;
         }
         return $this->render_from_template('block_mycourses/main', $main->export_for_template($this));

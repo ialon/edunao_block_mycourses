@@ -45,7 +45,7 @@ class main implements renderable, templatable {
      *
      * @var stdClass
      */
-    private $config;
+    public $config;
 
     /**
      * Store the grouping preference.
