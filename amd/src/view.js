@@ -55,15 +55,7 @@ const NUMCOURSES_PERPAGE = [5, 10, 15, 20, 0];
 
 const ROLE_TEACHER = 'teacher';
 
-let loadedPages = [];
-
-let courseOffset = 0;
-
-let lastPage = 0;
-
-let lastLimit = 0;
-
-let namespace = null;
+let instances = [];
 
 /**
  * Get filter values from DOM.
@@ -95,14 +87,15 @@ const DEFAULT_PAGED_CONTENT_CONFIG = {
 /**
  * Get enrolled courses from backend.
  *
+ * @param {Object} root The container for My Courses
  * @param {object} filters The filters for this view.
  * @param {int} limit The number of courses to show.
  * @return {promise} Resolved with an array of courses.
  */
-const getMyCourses = (filters, limit) => {
+const getMyCourses = (root, filters, limit) => {
     return Repository.getEnrolledCoursesByRole({
         role: filters.role,
-        offset: courseOffset,
+        offset: instances[root.attr('id')]['courseOffset'],
         limit: limit,
         classification: filters.grouping,
         sort: filters.sort,
@@ -114,15 +107,16 @@ const getMyCourses = (filters, limit) => {
 /**
  * Search for enrolled courses from backend.
  *
+ * @param {Object} root The container for My Courses
  * @param {object} filters The filters for this view.
  * @param {int} limit The number of courses to show.
  * @param {string} searchValue What does the user want to search within their courses.
  * @return {promise} Resolved with an array of courses.
  */
-const getSearchMyCourses = (filters, limit, searchValue) => {
+const getSearchMyCourses = (root, filters, limit, searchValue) => {
     return Repository.getEnrolledCoursesByRole({
         role: filters.role,
-        offset: courseOffset,
+        offset: instances[root.attr('id')]['courseOffset'],
         limit: limit,
         classification: 'search',
         sort: filters.sort,
@@ -232,7 +226,7 @@ const addToFavourites = (root, courseId) => {
     const removeAction = getRemoveFavouriteMenuItem(root, courseId);
     const addAction = getAddFavouriteMenuItem(root, courseId);
 
-    setCourseFavouriteState(courseId, true).then(success => {
+    setCourseFavouriteState(root, courseId, true).then(success => {
         if (success) {
             PubSub.publish(CourseEvents.favourited, courseId);
             removeAction.removeClass('hidden');
@@ -255,7 +249,7 @@ const removeFromFavourites = (root, courseId) => {
     const removeAction = getRemoveFavouriteMenuItem(root, courseId);
     const addAction = getAddFavouriteMenuItem(root, courseId);
 
-    setCourseFavouriteState(courseId, false).then(success => {
+    setCourseFavouriteState(root, courseId, false).then(success => {
         if (success) {
             PubSub.publish(CourseEvents.unfavorited, courseId);
             removeAction.addClass('hidden');
@@ -386,7 +380,7 @@ const invisibleCourse = (root, courseId) => {
     const hideAction = getInvisibleCourseMenuItem(root, courseId);
     const showAction = getVisibleCourseMenuItem(root, courseId);
 
-    setCourseInvisibleState(courseId, 0).then(success => {
+    setCourseInvisibleState(root, courseId, 0).then(success => {
         if (success) {
             hideAction.addClass('hidden');
             showAction.removeClass('hidden');
@@ -408,7 +402,7 @@ const visibleCourse = (root, courseId) => {
     const hideAction = getInvisibleCourseMenuItem(root, courseId);
     const showAction = getVisibleCourseMenuItem(root, courseId);
 
-    setCourseInvisibleState(courseId, 1).then(success => {
+    setCourseInvisibleState(root, courseId, 1).then(success => {
         if (success) {
             hideAction.removeClass('hidden');
             showAction.addClass('hidden');
@@ -423,11 +417,12 @@ const visibleCourse = (root, courseId) => {
 /**
  * Set the courses visibility and push to repository
  *
+ * @param {Object} root The container for My Courses
  * @param {Number} courseId Course id.
  * @param {Number} status new visibility.
  * @return {Promise} Repository promise.
  */
-const setCourseInvisibleState = (courseId, status) => {
+const setCourseInvisibleState = (root, courseId, status) => {
     return Repository.setInvisibilityCourse({
         courses: [
             {
@@ -437,7 +432,7 @@ const setCourseInvisibleState = (courseId, status) => {
         ]
     }).then(result => {
         if (result.warnings.length === 0) {
-            loadedPages.forEach(courseList => {
+            instances[root.attr('id')]['loadedPages'].forEach(courseList => {
                 courseList.courses.forEach((course, index) => {
                     if (course.id == courseId) {
                         courseList.courses[index].visible = status;
@@ -462,7 +457,7 @@ const hideElement = (root, id) => {
     const jumpto = parseInt(pagingBar.attr('data-active-page-number'));
 
     // Get a reduced dataset for the current page.
-    const courseList = loadedPages[jumpto];
+    const courseList = instances[root.attr('id')]['loadedPages'][jumpto];
     let reducedCourse = courseList.courses.reduce((accumulator, current) => {
         if (+id !== +current.id) {
             accumulator.push(current);
@@ -471,17 +466,18 @@ const hideElement = (root, id) => {
     }, []);
 
     // Get the next page's data if loaded and pop the first element from it.
-    if (typeof (loadedPages[jumpto + 1]) !== 'undefined') {
-        const newElement = loadedPages[jumpto + 1].courses.slice(0, 1);
+    if (typeof (instances[root.attr('id')]['loadedPages'][jumpto + 1]) !== 'undefined') {
+        const newElement = instances[root.attr('id')]['loadedPages'][jumpto + 1].courses.slice(0, 1);
 
         // Adjust the dataset for the reset of the pages that are loaded.
-        loadedPages.forEach((courseList, index) => {
+        instances[root.attr('id')]['loadedPages'].forEach((courseList, index) => {
             if (index > jumpto) {
                 let popElement = [];
-                if (typeof (loadedPages[index + 1]) !== 'undefined') {
-                    popElement = loadedPages[index + 1].courses.slice(0, 1);
+                if (typeof (instances[root.attr('id')]['loadedPages'][index + 1]) !== 'undefined') {
+                    popElement = instances[root.attr('id')]['loadedPages'][index + 1].courses.slice(0, 1);
                 }
-                loadedPages[index].courses = [...loadedPages[index].courses.slice(1), ...popElement];
+                instances[root.attr('id')]['loadedPages'][index].courses =
+                    [...instances[root.attr('id')]['loadedPages'][index].courses.slice(1), ...popElement];
             }
         });
 
@@ -489,24 +485,25 @@ const hideElement = (root, id) => {
     }
 
     // Check if the next page is the last page and if it still has data associated to it.
-    if (lastPage === jumpto + 1 && loadedPages[jumpto + 1].courses.length === 0) {
+    if (instances[root.attr('id')]['lastPage'] === jumpto + 1 &&
+        instances[root.attr('id')]['loadedPages'][jumpto + 1].courses.length === 0) {
         const pagedContentContainer = root.find('[data-region="paged-content-container"]');
         PagedContentFactory.resetLastPageNumber($(pagedContentContainer).attr('id'), jumpto);
     }
 
-    loadedPages[jumpto].courses = reducedCourse;
+    instances[root.attr('id')]['loadedPages'][jumpto].courses = reducedCourse;
 
     // Reduce the course offset.
-    courseOffset--;
+    instances[root.attr('id')]['courseOffset']--;
 
     // Render the paged content for the current.
     const pagedContentPage = getPagedContentContainer(root, jumpto);
-    renderCourses(root, loadedPages[jumpto]).then((html, js) => {
+    renderCourses(root, instances[root.attr('id')]['loadedPages'][jumpto]).then((html, js) => {
         return Templates.replaceNodeContents(pagedContentPage, html, js);
     }).catch(Notification.exception);
 
     // Delete subsequent pages in order to trigger the callback.
-    loadedPages.forEach((courseList, index) => {
+    instances[root.attr('id')]['loadedPages'].forEach((courseList, index) => {
         if (index > jumpto) {
             const page = getPagedContentContainer(root, index);
             page.remove();
@@ -517,11 +514,12 @@ const hideElement = (root, id) => {
 /**
  * Set the courses favourite status and push to repository
  *
+ * @param {Object} root The container for My Courses
  * @param {Number} courseId Course id to favourite.
  * @param {boolean} status new favourite status.
  * @return {Promise} Repository promise.
  */
-const setCourseFavouriteState = (courseId, status) => {
+const setCourseFavouriteState = (root, courseId, status) => {
 
     return Repository.setFavouriteCourses({
         courses: [
@@ -532,7 +530,7 @@ const setCourseFavouriteState = (courseId, status) => {
         ]
     }).then(result => {
         if (result.warnings.length === 0) {
-            loadedPages.forEach(courseList => {
+            instances[root.attr('id')]['loadedPages'].forEach(courseList => {
                 courseList.courses.forEach((course, index) => {
                     if (course.id == courseId) {
                         courseList.courses[index].isfavourite = status;
@@ -662,25 +660,26 @@ const itemsPerPageFunc = (pagingLimit, root) => {
 /**
  * Mutates and controls the loadedPages array and handles the bootstrapping.
  *
+ * @param  {Object} root The container for My Courses
  * @param {Array|Object} coursesData Array of all of the courses to start building the page from
  * @param {Number} currentPage What page are we currently on?
  * @param {Object} pageData Any current page information
  * @param {Object} actions Paged content helper
  * @param {null|boolean} activeSearch Are we currently actively searching and building up search results?
  */
-const pageBuilder = (coursesData, currentPage, pageData, actions, activeSearch = null) => {
+const pageBuilder = (root, coursesData, currentPage, pageData, actions, activeSearch = null) => {
     // If the courseData comes in an object then get the value otherwise it is a pure array.
     let courses = coursesData.courses ? coursesData.courses : coursesData;
     let nextPageStart = 0;
     let pageCourses = [];
 
     // If current page's data is loaded make sure we max it to page limit.
-    if (typeof (loadedPages[currentPage]) !== 'undefined') {
-        pageCourses = loadedPages[currentPage].courses;
+    if (typeof (instances[root.attr('id')]['loadedPages'][currentPage]) !== 'undefined') {
+        pageCourses = instances[root.attr('id')]['loadedPages'][currentPage].courses;
         const currentPageLength = pageCourses.length;
         if (currentPageLength < pageData.limit) {
             nextPageStart = pageData.limit - currentPageLength;
-            pageCourses = {...loadedPages[currentPage].courses, ...courses.slice(0, nextPageStart)};
+            pageCourses = {...instances[root.attr('id')]['loadedPages'][currentPage].courses, ...courses.slice(0, nextPageStart)};
         }
     } else {
         // When the page limit is zero, there is only one page of courses, no start for next page.
@@ -689,56 +688,59 @@ const pageBuilder = (coursesData, currentPage, pageData, actions, activeSearch =
     }
 
     // Finished setting up the current page.
-    loadedPages[currentPage] = {
+    instances[root.attr('id')]['loadedPages'][currentPage] = {
         courses: pageCourses
     };
 
     // Set up the next page (if there is more than one page).
     const remainingCourses = nextPageStart !== false ? courses.slice(nextPageStart, courses.length) : [];
     if (remainingCourses.length) {
-        loadedPages[currentPage + 1] = {
+        instances[root.attr('id')]['loadedPages'][currentPage + 1] = {
             courses: remainingCourses
         };
     }
 
     // Set the last page to either the current or next page.
-    if (loadedPages[currentPage].courses.length < pageData.limit || !remainingCourses.length) {
-        lastPage = currentPage;
+    if (instances[root.attr('id')]['loadedPages'][currentPage].courses.length < pageData.limit || !remainingCourses.length) {
+        instances[root.attr('id')]['lastPage'] = currentPage;
         if (activeSearch === null) {
             actions.allItemsLoaded(currentPage);
         }
-    } else if (typeof (loadedPages[currentPage + 1]) !== 'undefined'
-        && loadedPages[currentPage + 1].courses.length < pageData.limit) {
-        lastPage = currentPage + 1;
+    } else if (typeof (instances[root.attr('id')]['loadedPages'][currentPage + 1]) !== 'undefined'
+        && instances[root.attr('id')]['loadedPages'][currentPage + 1].courses.length < pageData.limit) {
+        instances[root.attr('id')]['lastPage'] = currentPage + 1;
     }
 
-    courseOffset = coursesData.nextoffset;
+    instances[root.attr('id')]['courseOffset'] = coursesData.nextoffset;
 };
 
 /**
  * In cases when switching between regular rendering and search rendering we need to reset some variables.
+ * @param {Object} root The mycourses block container element.
  */
-const resetGlobals = () => {
-    courseOffset = 0;
-    loadedPages = [];
-    lastPage = 0;
-    lastLimit = 0;
+const resetGlobals = (root) => {
+    instances[root.attr('id')]['courseOffset'] = 0;
+    instances[root.attr('id')]['loadedPages'] = [];
+    instances[root.attr('id')]['lastPage'] = 0;
+    instances[root.attr('id')]['lastLimit'] = 0;
 };
 
 /**
  * The default functionality of fetching paginated courses without special handling.
  *
+ * @param {Object} root The mycourses block container element.
  * @return {function(Object, Object, Object, Object, Object, Promise, Number): void}
  */
-const standardFunctionalityCurry = () => {
-    resetGlobals();
+const standardFunctionalityCurry = (root) => {
+    resetGlobals(root);
     return (filters, currentPage, pageData, actions, root, promises, limit) => {
         const pagePromise = getMyCourses(
+            root,
             filters,
             limit
         ).then(coursesData => {
-            pageBuilder(coursesData, currentPage, pageData, actions);
-            return renderCourses(root, loadedPages[currentPage]);
+            pageBuilder(root, coursesData, currentPage, pageData, actions);
+            return renderCourses(root, instances[root.attr('id')]['loadedPages'][currentPage]);
         }).catch(Notification.exception);
 
         promises.push(pagePromise);
@@ -748,18 +750,20 @@ const standardFunctionalityCurry = () => {
 /**
  * Initialize the searching functionality so we can call it when required.
  *
+ * @param {Object} root The mycourses block container element.
  * @return {function(Object, Number, Object, Object, Object, Promise, Number, String): void}
  */
-const searchFunctionalityCurry = () => {
-    resetGlobals();
+const searchFunctionalityCurry = (root) => {
+    resetGlobals(root);
     return (filters, currentPage, pageData, actions, root, promises, limit, inputValue) => {
         const searchingPromise = getSearchMyCourses(
+            root,
             filters,
             limit,
             inputValue
         ).then(coursesData => {
-            pageBuilder(coursesData, currentPage, pageData, actions);
-            return renderCourses(root, loadedPages[currentPage]);
+            pageBuilder(root, coursesData, currentPage, pageData, actions);
+            return renderCourses(root, instances[root.attr('id')]['loadedPages'][currentPage]);
         }).catch(Notification.exception);
 
         promises.push(searchingPromise);
@@ -779,7 +783,7 @@ const initializePagedContent = (root, promiseFunction, inputValue = null) => {
 
     const filters = getFilterValues(root);
     const config = {...{}, ...DEFAULT_PAGED_CONTENT_CONFIG};
-    config.eventNamespace = namespace;
+    config.eventNamespace = instances[root.attr('id')]['namespace'];
 
     const pagedContentPromise = PagedContentFactory.createWithLimit(
         itemsPerPage,
@@ -790,24 +794,24 @@ const initializePagedContent = (root, promiseFunction, inputValue = null) => {
                 let limit = (pageData.limit > 0) ? pageData.limit : 0;
 
                 // Reset local variables if limits have changed.
-                if (+lastLimit !== +limit) {
-                    loadedPages = [];
-                    courseOffset = 0;
-                    lastPage = 0;
+                if (+instances[root.attr('id')]['lastLimit'] !== +limit) {
+                    instances[root.attr('id')]['loadedPages'] = [];
+                    instances[root.attr('id')]['courseOffset'] = 0;
+                    instances[root.attr('id')]['lastPage'] = 0;
                 }
 
-                if (lastPage === currentPage) {
+                if (instances[root.attr('id')]['lastPage'] === currentPage) {
                     // If we are on the last page and have it's data then load it from cache.
-                    actions.allItemsLoaded(lastPage);
-                    promises.push(renderCourses(root, loadedPages[currentPage]));
+                    actions.allItemsLoaded(instances[root.attr('id')]['lastPage']);
+                    promises.push(renderCourses(root, instances[root.attr('id')]['loadedPages'][currentPage]));
                     return;
                 }
 
-                lastLimit = limit;
+                instances[root.attr('id')]['lastLimit'] = limit;
 
                 // Get 2 pages worth of data as we will need it for the hidden functionality.
-                if (typeof (loadedPages[currentPage + 1]) === 'undefined') {
-                    if (typeof (loadedPages[currentPage]) === 'undefined') {
+                if (typeof (instances[root.attr('id')]['loadedPages'][currentPage + 1]) === 'undefined') {
+                    if (typeof (instances[root.attr('id')]['loadedPages'][currentPage]) === 'undefined') {
                         limit *= 2;
                     }
                 }
@@ -821,7 +825,7 @@ const initializePagedContent = (root, promiseFunction, inputValue = null) => {
     );
 
     pagedContentPromise.then((html, js) => {
-        registerPagedEventHandlers(root, namespace);
+        registerPagedEventHandlers(root, instances[root.attr('id')]['namespace']);
         return Templates.replaceNodeContents(root.find(SELECTORS.courseView.region), html, js);
     }).catch(Notification.exception);
 };
@@ -885,7 +889,7 @@ const registerEventListeners = (root, page) => {
             clearSearch(clearIcon, root);
         } else {
             activeSearch(clearIcon);
-            initializePagedContent(root, searchFunctionalityCurry(), input.value.trim());
+            initializePagedContent(root, searchFunctionalityCurry(root), input.value.trim());
         }
     }, 1000));
 };
@@ -943,26 +947,28 @@ const activeSearch = (clearIcon) => {
  */
 export const init = root => {
     root = $(root);
-    loadedPages = [];
-    lastPage = 0;
-    courseOffset = 0;
+
+    instances[root.attr('id')] = [];
+    instances[root.attr('id')]['loadedPages'] = [];
+    instances[root.attr('id')]['lastPage'] = 0;
+    instances[root.attr('id')]['courseOffset'] = 0;
 
     const courseRegion = root.find(SELECTORS.courseView.region);
     let role = courseRegion.attr('data-user-role');
 
     if (!root.attr('data-init')) {
         if (role !== ROLE_TEACHER) {
-            const page = document.querySelector(SELECTORS.region.selectBlock);
+            const page = document.querySelector('#' + root.attr('id') + SELECTORS.region.selectBlock);
             registerEventListeners(root, page);
         } else {
             registerTeacherEventListeners(root);
         }
 
-        namespace = "block_mycourses_" + root.attr('id') + "_" + Math.random();
+        instances[root.attr('id')]['namespace'] = "block_mycourses_" + root.attr('id') + "_" + Math.random();
         root.attr('data-init', true);
     }
 
-    initializePagedContent(root, standardFunctionalityCurry());
+    initializePagedContent(root, standardFunctionalityCurry(root));
 };
 
 /**
@@ -975,8 +981,8 @@ export const init = root => {
  * @param {Object} root The root element for the timeline view.
  */
 export const reset = root => {
-    if (loadedPages.length > 0) {
-        loadedPages.forEach((courseList, index) => {
+    if (instances[root.attr('id')]['loadedPages'].length > 0) {
+        instances[root.attr('id')]['loadedPages'].forEach((courseList, index) => {
             let pagedContentPage = getPagedContentContainer(root, index);
             renderCourses(root, courseList).then((html, js) => {
                 return Templates.replaceNodeContents(pagedContentPage, html, js);

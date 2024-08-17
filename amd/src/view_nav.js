@@ -86,7 +86,7 @@ const registerSelector = root => {
             // Reset the views.
 
             // Check if the user is currently in a searching state, if so we'll reset it.
-            const page = document.querySelector(SELECTORS.region.selectBlock);
+            const page = document.querySelector('#' + root.attr('id') + SELECTORS.region.selectBlock);
             const input = page.querySelector(SELECTORS.region.searchInput);
             if (input.value !== '') {
                 const clearIcon = page.querySelector(SELECTORS.region.clearIcon);
