@@ -24,14 +24,16 @@
 
 class block_myoverview_edit_form extends block_edit_form {
     protected function specific_definition($mform) {
-        $mform->addElement('header', 'configheader', get_string('blocksettings', 'block'));
-
-        $options = array(
-            BLOCK_MYOVERVIEW_ROLE_TEACHER => get_string('teacher', 'block_myoverview'),
-            BLOCK_MYOVERVIEW_ROLE_STUDENT => get_string('student', 'block_myoverview')
-        );
-
-        $mform->addElement('select', 'config_myrole', get_string('displayrole', 'block_myoverview'), $options);
-        $mform->setDefault('config_myrole', BLOCK_MYOVERVIEW_ROLE_TEACHER);
+        if (is_siteadmin()) {
+            $mform->addElement('header', 'configheader', get_string('blocksettings', 'block'));
+    
+            $options = array(
+                BLOCK_MYOVERVIEW_ROLE_TEACHER => get_string('teacher', 'block_myoverview'),
+                BLOCK_MYOVERVIEW_ROLE_STUDENT => get_string('student', 'block_myoverview')
+            );
+    
+            $mform->addElement('select', 'config_myrole', get_string('displayrole', 'block_myoverview'), $options);
+            $mform->setDefault('config_myrole', BLOCK_MYOVERVIEW_ROLE_TEACHER);
+        }
     }
 }
