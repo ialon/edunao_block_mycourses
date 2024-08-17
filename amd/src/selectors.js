@@ -25,6 +25,7 @@ export default {
         region: '[data-region="courses-view"]',
         regionContent: '[data-region="course-view-content"]'
     },
+    INSTANCE: 'data-instance',
     FILTERS: '[data-region="filter"]',
     FILTER_OPTION: '[data-filter]',
     DISPLAY_OPTION: '[data-display-option]',

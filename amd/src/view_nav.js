@@ -30,11 +30,12 @@ import SELECTORS from 'block_mycourses/selectors';
 /**
  * Update the user preference for the block.
  *
+ * @param {object} root The root element for the My Courses block
  * @param {String} filter The type of filter: display/sort/grouping.
  * @param {String} value The current preferred value.
  * @return {Promise}
  */
-const updatePreferences = (filter, value) => {
+const updatePreferences = (root, filter, value) => {
     let type = null;
     if (filter === 'display') {
         type = 'block_mycourses_user_view_preference';
@@ -45,6 +46,10 @@ const updatePreferences = (filter, value) => {
     } else {
         type = 'block_mycourses_user_grouping_preference';
     }
+
+    // Make preference unique for each instance.
+    let instance = root.attr(SELECTORS.INSTANCE);
+    type += '_' + instance;
 
     return setUserPreference(type, value)
         .catch(Notification.exception);
@@ -76,11 +81,11 @@ const registerSelector = root => {
             const customfieldvalue = option.attr('data-customfieldvalue');
 
             root.find(SELECTORS.courseView.region).attr('data-' + filter, option.attr('data-value'));
-            updatePreferences(filter, pref);
+            updatePreferences(root, filter, pref);
 
             if (customfieldvalue) {
                 root.find(SELECTORS.courseView.region).attr('data-customfieldvalue', customfieldvalue);
-                updatePreferences('customfieldvalue', customfieldvalue);
+                updatePreferences(root, 'customfieldvalue', customfieldvalue);
             }
 
             // Reset the views.
@@ -115,7 +120,7 @@ const registerSelector = root => {
             const pref = option.attr('data-pref');
 
             root.find(SELECTORS.courseView.region).attr('data-display', option.attr('data-value'));
-            updatePreferences(filter, pref);
+            updatePreferences(root, filter, pref);
             View.reset(root);
             data.originalEvent.preventDefault();
         }
@@ -148,7 +153,7 @@ const registerTeacherSelector = root => {
             const pref = option.attr('data-pref');
 
             root.find(SELECTORS.courseView.region).attr('data-' + filter, option.attr('data-value'));
-            updatePreferences(filter, pref);
+            updatePreferences(root, filter, pref);
 
             // Reset the views.
             View.init(root);

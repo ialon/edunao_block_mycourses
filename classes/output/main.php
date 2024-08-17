@@ -479,6 +479,7 @@ class main implements renderable, templatable {
             'grouping' => $this->grouping,
             'sort' => $sort,
             'role' => $this->config->myrole,
+            'instance' => $this->config->instance,
             'isteacher' => $this->config->myrole == BLOCK_MYCOURSES_ROLE_TEACHER,
             // If the user preference display option is not available, default to first available layout.
             'view' => in_array($this->view, $this->layouts) ? $this->view : reset($this->layouts),

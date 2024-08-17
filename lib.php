@@ -85,7 +85,8 @@ define('BLOCK_MYCOURSES_ROLE_STUDENT', 'student');
  * @return array[] Array representing current options along with defaults
  */
 function block_mycourses_user_preferences(): array {
-    $preferences['block_mycourses_user_grouping_preference'] = array(
+    $preferences['/^block_mycourses_user_grouping_preference_(\d)+$/'] = array(
+        'isregex' => true,
         'null' => NULL_NOT_ALLOWED,
         'default' => BLOCK_MYCOURSES_GROUPING_ALL,
         'type' => PARAM_ALPHA,
@@ -102,14 +103,16 @@ function block_mycourses_user_preferences(): array {
         'permissioncallback' => [core_user::class, 'is_current_user'],
     );
 
-    $preferences['block_mycourses_user_grouping_customfieldvalue_preference'] = [
+    $preferences['/^block_mycourses_user_grouping_customfieldvalue_preference_(\d)+$/'] = [
+        'isregex' => true,
         'null' => NULL_ALLOWED,
         'default' => null,
         'type' => PARAM_RAW,
         'permissioncallback' => [core_user::class, 'is_current_user'],
     ];
 
-    $preferences['block_mycourses_user_sort_preference'] = array(
+    $preferences['/^block_mycourses_user_sort_preference_(\d)+$/'] = array(
+        'isregex' => true,
         'null' => NULL_NOT_ALLOWED,
         'default' => BLOCK_MYCOURSES_SORTING_LASTACCESSED,
         'type' => PARAM_ALPHA,
@@ -121,7 +124,8 @@ function block_mycourses_user_preferences(): array {
         'permissioncallback' => [core_user::class, 'is_current_user'],
     );
 
-    $preferences['block_mycourses_user_view_preference'] = array(
+    $preferences['/^block_mycourses_user_view_preference_(\d)+$/'] = array(
+        'isregex' => true,
         'null' => NULL_NOT_ALLOWED,
         'default' => BLOCK_MYCOURSES_VIEW_CARD,
         'type' => PARAM_ALPHA,
@@ -142,7 +146,8 @@ function block_mycourses_user_preferences(): array {
         'permissioncallback' => [core_user::class, 'is_current_user'],
     );
 
-    $preferences['block_mycourses_user_paging_preference'] = array(
+    $preferences['/^block_mycourses_user_paging_preference_(\d)+$/'] = array(
+        'isregex' => true,
         'null' => NULL_NOT_ALLOWED,
         'default' => BLOCK_MYCOURSES_PAGING_5,
         'type' => PARAM_INT,

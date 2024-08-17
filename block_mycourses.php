@@ -53,11 +53,11 @@ class block_mycourses extends block_base {
             return $this->content;
         }
         $config = $this->config;
-        $group = get_user_preferences('block_mycourses_user_grouping_preference');
-        $sort = get_user_preferences('block_mycourses_user_sort_preference');
-        $view = get_user_preferences('block_mycourses_user_view_preference');
-        $paging = get_user_preferences('block_mycourses_user_paging_preference');
-        $customfieldvalue = get_user_preferences('block_mycourses_user_grouping_customfieldvalue_preference');
+        $group = get_user_preferences('block_mycourses_user_grouping_preference_' . $this->instance->id);
+        $sort = get_user_preferences('block_mycourses_user_sort_preference_' . $this->instance->id);
+        $view = get_user_preferences('block_mycourses_user_view_preference_' . $this->instance->id);
+        $paging = get_user_preferences('block_mycourses_user_paging_preference_' . $this->instance->id);
+        $customfieldvalue = get_user_preferences('block_mycourses_user_grouping_customfieldvalue_preference_' . $this->instance->id);
 
         $renderable = new \block_mycourses\output\main($config, $group, $sort, $view, $paging, $customfieldvalue);
         $renderer = $this->page->get_renderer('block_mycourses');
@@ -105,6 +105,7 @@ class block_mycourses extends block_base {
         if (empty($this->config->myrole)) {
             $this->config->myrole = BLOCK_MYCOURSES_ROLE_TEACHER;
         }
+        $this->config->instance = $this->instance->id;
     }
 
     /**
@@ -130,11 +131,11 @@ class block_mycourses extends block_base {
 
         // Get the customfield values (if any).
         if ($configs->displaygroupingcustomfield) {
-            $group = get_user_preferences('block_mycourses_user_grouping_preference');
-            $sort = get_user_preferences('block_mycourses_user_sort_preference');
-            $view = get_user_preferences('block_mycourses_user_view_preference');
-            $paging = get_user_preferences('block_mycourses_user_paging_preference');
-            $customfieldvalue = get_user_preferences('block_mycourses_user_grouping_customfieldvalue_preference');
+            $group = get_user_preferences('block_mycourses_user_grouping_preference_' . $this->instance->id);
+            $sort = get_user_preferences('block_mycourses_user_sort_preference_' . $this->instance->id);
+            $view = get_user_preferences('block_mycourses_user_view_preference_' . $this->instance->id);
+            $paging = get_user_preferences('block_mycourses_user_paging_preference_' . $this->instance->id);
+            $customfieldvalue = get_user_preferences('block_mycourses_user_grouping_customfieldvalue_preference_' . $this->instance->id);
 
             $renderable = new \block_mycourses\output\main($instanceconfig, $group, $sort, $view, $paging, $customfieldvalue);
             $customfieldsexport = $renderable->get_customfield_values_for_export();

@@ -76,14 +76,6 @@ const getFilterValues = root => {
     };
 };
 
-// We want the paged content controls below the paged content area.
-// and the controls should be ignored while data is loading.
-const DEFAULT_PAGED_CONTENT_CONFIG = {
-    ignoreControlWhileLoading: true,
-    controlPlacementBottom: true,
-    persistentLimitKey: 'block_mycourses_user_paging_preference'
-};
-
 /**
  * Get enrolled courses from backend.
  *
@@ -781,8 +773,16 @@ const initializePagedContent = (root, promiseFunction, inputValue = null) => {
     const pagingLimit = parseInt(root.find(SELECTORS.courseView.region).attr('data-paging'), 10);
     let itemsPerPage = itemsPerPageFunc(pagingLimit, root);
 
+    // We want the paged content controls below the paged content area.
+    // and the controls should be ignored while data is loading.
+    let default_paged_content_config = {
+        ignoreControlWhileLoading: true,
+        controlPlacementBottom: true,
+        persistentLimitKey: 'block_mycourses_user_paging_preference_' + root.attr(SELECTORS.INSTANCE)
+    };
+
     const filters = getFilterValues(root);
-    const config = {...{}, ...DEFAULT_PAGED_CONTENT_CONFIG};
+    const config = {...{}, ...default_paged_content_config};
     config.eventNamespace = instances[root.attr('id')]['namespace'];
 
     const pagedContentPromise = PagedContentFactory.createWithLimit(
