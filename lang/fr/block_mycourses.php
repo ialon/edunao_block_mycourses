@@ -21,15 +21,14 @@
  * @copyright  Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-$string['allincludinghidden'] = 'Tous (y compris ceux supprimés de la vue)';
+$string['allincludinghidden'] = 'Tous (y compris ceux masqués)';
 $string['all'] = 'Tous';
 $string['addtofavourites'] = 'Ajouter aux favoris';
 $string['aria:addtofavourites'] = 'Ajouter aux favoris pour';
 $string['aria:allcoursesincludinghidden'] = 'Afficher tous les cours';
-$string['aria:allcourses'] = 'Afficher tous les cours sauf ceux supprimés de la vue';
-$string['aria:card'] = 'Passer à la vue en cartes';
-$string['aria:controls'] = 'Contrôles de l\'aperçu du cours';
+$string['aria:allcourses'] = 'Afficher tous les cours sauf ceux masqués';
+$string['aria:card'] = 'Passer à la vue en carte';
+$string['aria:controls'] = 'Contrôles de Mes cours';
 $string['aria:courseactions'] = 'Actions pour le cours';
 $string['aria:coursesummary'] = 'Texte de résumé du cours :';
 $string['aria:courseprogress'] = 'Progression du cours :';
@@ -61,36 +60,36 @@ $string['future'] = 'À venir';
 $string['inprogress'] = 'En cours';
 $string['lastaccessed'] = 'Dernier accès';
 $string['layouts'] = 'Mises en page disponibles';
-$string['layouts_help'] = 'Mises en page de l\'aperçu du cours disponibles pour la sélection par les utilisateurs. Si aucune n\'est sélectionnée, la mise en page en cartes sera utilisée.';
+$string['layouts_help'] = 'Mises en page de Mes cours disponibles pour la sélection par les utilisateurs. Si aucune n\'est sélectionnée, la mise en page en carte sera utilisée.';
 $string['list'] = 'Liste';
-$string['mycourses:myaddinstance'] = 'Ajouter un nouveau bloc d\'aperçu du cours au tableau de bord';
+$string['mycourses:myaddinstance'] = 'Ajouter un nouveau bloc Mes cours au tableau de bord';
 $string['nocustomvalue'] = 'Aucun {$a}';
 $string['past'] = 'Passé';
-$string['pluginname'] = 'Aperçu du cours';
-$string['privacy:metadata:mycoursessortpreference'] = 'La préférence de tri du bloc d\'aperçu du cours.';
-$string['privacy:metadata:mycoursesviewpreference'] = 'La préférence d\'affichage du bloc d\'aperçu du cours.';
-$string['privacy:metadata:mycoursesgroupingpreference'] = 'La préférence de regroupement du bloc d\'aperçu du cours.';
-$string['privacy:metadata:mycoursespagingpreference'] = 'La préférence de pagination du bloc d\'aperçu du cours.';
+$string['pluginname'] = 'Mes cours';
+$string['privacy:metadata:mycoursessortpreference'] = 'La préférence de tri du bloc Mes cours.';
+$string['privacy:metadata:mycoursesviewpreference'] = 'La préférence d\'affichage du bloc Mes cours.';
+$string['privacy:metadata:mycoursesgroupingpreference'] = 'La préférence de regroupement du bloc Mes cours.';
+$string['privacy:metadata:mycoursespagingpreference'] = 'La préférence de pagination du bloc Mes cours.';
 $string['removefromfavourites'] = 'Retirer des favoris';
 $string['searchcourses'] = "Rechercher des cours";
 $string['shortname'] = 'Nom court';
 $string['summary'] = 'Résumé';
 $string['title'] = 'Nom du cours';
-$string['aria:hidecourse'] = 'Supprimer {$a} de la vue';
+$string['aria:hidecourse'] = 'Masquer {$a} de la vue';
 $string['aria:showcourse'] = 'Restaurer {$a} dans la vue';
 $string['aria:invisiblecourse'] = 'Rendre le cours {$a} invisible pour les apprenants';
 $string['aria:visiblecourse'] = 'Rendre le cours {$a} visible pour les apprenants';
-$string['aria:hiddencourses'] = 'Afficher les cours supprimés de la vue';
-$string['hidden'] = 'Cours supprimés de la vue';
-$string['hidecourse'] = 'Supprimer de la vue';
-$string['hiddencourses'] = 'Supprimés de la vue';
+$string['aria:hiddencourses'] = 'Afficher les cours masqués';
+$string['hidden'] = 'Cours masqués';
+$string['hidecourse'] = 'Masquer de la vue';
+$string['hiddencourses'] = 'Masqués de la vue';
 $string['show'] = 'Restaurer la vue';
 $string['invisiblecourse'] = 'Masquer le cours';
 $string['visiblecourse'] = 'Afficher le cours';
-$string['sortbytitle'] = 'Trier par nom du cours';
+$string['sortbytitle'] = 'Trier par nom de cours';
 $string['sortbylastaccessed'] = 'Trier par dernier accès';
 $string['sortbyshortname'] = 'Trier par nom court';
-$string['privacy:request:preference:set'] = 'La valeur du paramètre "{$a->name}" était "{$a->value}"';
+$string['privacy:request:preference:set'] = 'La valeur du paramètre \'{$a->name}\' était \'{$a->value}\'';
 $string['viewquickstart'] = 'Voir le guide de démarrage rapide';
 $string['zero_default_title'] = 'Vous n\'êtes inscrit à aucun cours';
 $string['zero_default_intro'] = 'Une fois inscrit à un cours, il apparaîtra ici.';
@@ -101,18 +100,18 @@ $string['zero_nocourses_intro'] = 'Besoin d\'aide pour commencer ? Consultez la 
 $string['clearsearch'] = "Effacer la recherche";
 $string['aria:lastaccessed'] = 'Trier les cours par date de dernier accès';
 $string['aria:shortname'] = 'Trier les cours par nom court';
-$string['aria:title'] = 'Trier les cours par nom du cours';
+$string['aria:title'] = 'Trier les cours par nom de cours';
 
 $string['displayrole'] = 'Mes cours en tant que';
 $string['teacher'] = 'Enseignant';
 $string['student'] = 'Étudiant';
 
-// KPI strings
-$string['kpi:learners'] = 'Apprenants:';
+// Chaînes KPI
+$string['kpi:learners'] = 'Apprenants :';
 $string['kpi:learners:enrolled'] = '{$a} inscrits';
 $string['kpi:learners:started'] = '{$a} ont commencé';
 $string['kpi:learners:completed'] = '{$a} ont terminé';
 $string['kpi:learners:shared'] = '{$a} ont partagé';
-$string['kpi:timetocomplete'] = 'Temps moyen pour terminer:';
-$string['kpi:completiongrade'] = 'Note moyenne de complétion:';
-$string['kpi:lastaccessed'] = 'Dernier accès:';
+$string['kpi:timetocomplete'] = 'Temps moyen pour terminer :';
+$string['kpi:completiongrade'] = 'Note moyenne de réussite :';
+$string['kpi:lastaccessed'] = 'Dernier accès :';
