@@ -590,10 +590,8 @@ const renderCourses = (root, coursesData) => {
         }
 
         // Whether the course category should be displayed in the course item.
-        // Let's hijack this loop and add if the block is for teacher or student.
         coursesData.courses = coursesData.courses.map(course => {
             course.showcoursecategory = filters.displaycategories === 'on';
-            course.isteacher = filters.role === ROLE_TEACHER;
             return course;
         });
 

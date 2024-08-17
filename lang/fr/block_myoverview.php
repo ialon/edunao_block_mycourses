@@ -106,3 +106,13 @@ $string['aria:title'] = 'Trier les cours par nom du cours';
 $string['displayrole'] = 'Mes cours en tant que';
 $string['teacher'] = 'Enseignant';
 $string['student'] = 'Étudiant';
+
+// KPI strings
+$string['kpi:learners'] = 'Apprenants:';
+$string['kpi:learners:enrolled'] = '{$a} inscrits';
+$string['kpi:learners:started'] = '{$a} ont commencé';
+$string['kpi:learners:completed'] = '{$a} ont terminé';
+$string['kpi:learners:shared'] = '{$a} ont partagé';
+$string['kpi:timetocomplete'] = 'Temps moyen pour terminer:';
+$string['kpi:completiongrade'] = 'Note moyenne de complétion:';
+$string['kpi:lastaccessed'] = 'Dernier accès:';

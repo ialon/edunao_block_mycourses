@@ -31,6 +31,7 @@
                 "progress": 10,
                 "coursecategory": "Category 1",
                 "visible": true,
+                "kpidata": "Enrolled users: 3",
                 "isteacher": false
             }
         ]
@@ -86,6 +87,11 @@
                             </span>
                         </div>
                     {{/showcoursecategory}}
+                    {{#kpidata}}
+                        <div class="text-muted muted d-flex flex-wrap">
+                            {{{kpidata}}}
+                        </div>
+                    {{/kpidata}}
                     {{#hasprogress}}
                         <div class="text-muted muted d-flex flex-wrap mt-auto">
                             {{> block_myoverview/progress-bar}}

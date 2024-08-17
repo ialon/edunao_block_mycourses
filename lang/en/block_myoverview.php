@@ -108,3 +108,13 @@ $string['aria:title'] = 'Sort courses by course name';
 $string['displayrole'] = 'My courses as';
 $string['teacher'] = 'Teacher';
 $string['student'] = 'Student';
+
+// KPI strings
+$string['kpi:learners'] = 'Learners:';
+$string['kpi:learners:enrolled'] = '{$a} enrolled';
+$string['kpi:learners:started'] = '{$a} started';
+$string['kpi:learners:completed'] = '{$a} completed';
+$string['kpi:learners:shared'] = '{$a} shared';
+$string['kpi:timetocomplete'] = 'Average time to complete:';
+$string['kpi:completiongrade'] = 'Average completion grade:';
+$string['kpi:lastaccessed'] = 'Last accessed:';

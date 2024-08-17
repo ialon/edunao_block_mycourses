@@ -16,7 +16,7 @@
 
 namespace block_myoverview;
 
-use core_course\external\course_summary_exporter;
+use block_myoverview\course_summary_exporter;
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -199,7 +199,7 @@ class external extends external_api {
         }
 
         $renderer = $PAGE->get_renderer('core');
-        $formattedcourses = array_map(function($course) use ($renderer, $favouritecourseids) {
+        $formattedcourses = array_map(function($course) use ($renderer, $favouritecourseids, $role) {
             if ($course == null) {
                 return;
             }
@@ -208,7 +208,12 @@ class external extends external_api {
             if (in_array($course->id, $favouritecourseids)) {
                 $isfavourite = true;
             }
-            $exporter = new course_summary_exporter($course, ['context' => $context, 'isfavourite' => $isfavourite]);
+            $related = [
+                'context' => $context,
+                'isfavourite' => $isfavourite,
+                'role' => $role
+            ];
+            $exporter = new course_summary_exporter($course, $related);
             return $exporter->export($renderer);
         }, $filteredcourses);
 
