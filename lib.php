@@ -165,6 +165,32 @@ function block_mycourses_user_preferences(): array {
 }
 
 /**
+ * Get a list of hidden courses
+ *
+ * @param int|object|null $user User override to get the filter from. Defaults to current user
+ * @return array $ids List of hidden courses
+ * @throws coding_exception
+ */
+function get_hidden_mycourses_on_timeline($user = null) {
+    global $USER;
+
+    if (empty($user)) {
+        $user = $USER->id;
+    }
+
+    $preferences = get_user_preferences(null, null, $user);
+    $ids = [];
+    foreach ($preferences as $key => $value) {
+        if (preg_match('/block_mycourses_hidden_course_(\d)+/', $key)) {
+            $id = preg_split('/block_mycourses_hidden_course_/', $key);
+            $ids[] = $id[1];
+        }
+    }
+
+    return $ids;
+}
+
+/**
  * Pre-delete course hook to cleanup any records with references to the deleted course.
  *
  * @param stdClass $course The deleted course
@@ -245,4 +271,61 @@ function filter_courses_by_role($courses, $role, $userid) {
     }
 
     return $filtered;
+}
+
+/**
+ * Search the given $courses for any that match the given $classification up to the specified
+ * $limit.
+ *
+ * This function will return the subset of courses that match the classification as well as the
+ * number of courses it had to process to build that subset.
+ *
+ * It is recommended that for larger sets of courses this function is given a Generator that loads
+ * the courses from the database in chunks.
+ *
+ * @param array|Traversable $courses List of courses to process
+ * @param string $classification One of the COURSE_TIMELINE_* constants
+ * @param int $limit Limit the number of results to this amount
+ * @return array First value is the filtered courses, second value is the number of courses processed
+ */
+function course_filter_mycourses_by_timeline_classification(
+    $courses,
+    string $classification,
+    int $limit = 0
+) : array {
+
+    if (!in_array($classification,
+            [COURSE_TIMELINE_ALLINCLUDINGHIDDEN, COURSE_TIMELINE_ALL, COURSE_TIMELINE_PAST, COURSE_TIMELINE_INPROGRESS,
+                COURSE_TIMELINE_FUTURE, COURSE_TIMELINE_HIDDEN, COURSE_TIMELINE_SEARCH])) {
+        $message = 'Classification must be one of COURSE_TIMELINE_ALLINCLUDINGHIDDEN, COURSE_TIMELINE_ALL, COURSE_TIMELINE_PAST, '
+            . 'COURSE_TIMELINE_INPROGRESS, COURSE_TIMELINE_SEARCH or COURSE_TIMELINE_FUTURE';
+        throw new moodle_exception($message);
+    }
+
+    $filteredcourses = [];
+    $numberofcoursesprocessed = 0;
+    $filtermatches = 0;
+
+    foreach ($courses as $course) {
+        $numberofcoursesprocessed++;
+        $pref = get_user_preferences('block_mycourses_hidden_course_' . $course->id, 0);
+
+        // Added as of MDL-63457 toggle viewability for each user.
+        if ($classification == COURSE_TIMELINE_ALLINCLUDINGHIDDEN || ($classification == COURSE_TIMELINE_HIDDEN && $pref) ||
+            $classification == COURSE_TIMELINE_SEARCH||
+            (($classification == COURSE_TIMELINE_ALL || $classification == course_classify_for_timeline($course)) && !$pref)) {
+            $filteredcourses[] = $course;
+            $filtermatches++;
+        }
+
+        if ($limit && $filtermatches >= $limit) {
+            // We've found the number of requested courses. No need to continue searching.
+            break;
+        }
+    }
+
+    // Return the number of filtered courses as well as the number of courses that were searched
+    // in order to find the matching courses. This allows the calling code to do some kind of
+    // pagination.
+    return [$filteredcourses, $numberofcoursesprocessed];
 }

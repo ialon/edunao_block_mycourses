@@ -61,6 +61,9 @@ class course_summary_exporter extends \core_course\external\course_summary_expor
     protected function get_other_values(renderer_base $output) {
         $values = parent::get_other_values($output);
         
+        // Get hidden value
+        $values['hidden'] = boolval(get_user_preferences('block_mycourses_hidden_course_' . $this->data->id, 0));
+
         // Add isteacher value
         $isteacher = $this->related['role'] === BLOCK_MYCOURSES_ROLE_TEACHER;
         $values['isteacher'] = $isteacher;

@@ -132,7 +132,7 @@ class external extends external_api {
 
         $requiredproperties = course_summary_exporter::define_properties();
         $fields = join(',', array_keys($requiredproperties));
-        $hiddencourses = get_hidden_courses_on_timeline();
+        $hiddencourses = get_hidden_mycourses_on_timeline();
         $courses = [];
 
         // If the timeline requires really all courses, get really all courses.
@@ -191,7 +191,7 @@ class external extends external_api {
                 $limit
             );
         } else {
-            list($filteredcourses, $processedcount) = course_filter_courses_by_timeline_classification(
+            list($filteredcourses, $processedcount) = course_filter_mycourses_by_timeline_classification(
                 $courses,
                 $classification,
                 $limit
