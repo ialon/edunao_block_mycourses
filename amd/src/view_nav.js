@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Manage the timeline view navigation for the overview block.
+ * Manage the timeline view navigation for the My Courses block.
  *
  * @copyright  2018 Bas Brands <bas@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -24,8 +24,8 @@ import $ from 'jquery';
 import * as CustomEvents from 'core/custom_interaction_events';
 import Notification from 'core/notification';
 import {setUserPreference} from 'core_user/repository';
-import * as View from 'block_myoverview/view';
-import SELECTORS from 'block_myoverview/selectors';
+import * as View from 'block_mycourses/view';
+import SELECTORS from 'block_mycourses/selectors';
 
 /**
  * Update the user preference for the block.
@@ -37,13 +37,13 @@ import SELECTORS from 'block_myoverview/selectors';
 const updatePreferences = (filter, value) => {
     let type = null;
     if (filter === 'display') {
-        type = 'block_myoverview_user_view_preference';
+        type = 'block_mycourses_user_view_preference';
     } else if (filter === 'sort') {
-        type = 'block_myoverview_user_sort_preference';
+        type = 'block_mycourses_user_sort_preference';
     } else if (filter === 'customfieldvalue') {
-        type = 'block_myoverview_user_grouping_customfieldvalue_preference';
+        type = 'block_mycourses_user_grouping_customfieldvalue_preference';
     } else {
-        type = 'block_myoverview_user_grouping_preference';
+        type = 'block_mycourses_user_grouping_preference';
     }
 
     return setUserPreference(type, value)
@@ -53,7 +53,7 @@ const updatePreferences = (filter, value) => {
 /**
  * Event listener for the Display filter (cards, list).
  *
- * @param {object} root The root element for the overview block
+ * @param {object} root The root element for the My Courses block
  */
 const registerSelector = root => {
 
@@ -125,7 +125,7 @@ const registerSelector = root => {
 /**
  * Event listener for the sort selector
  *
- * @param {object} root The root element for the overview block
+ * @param {object} root The root element for the My Courses block
  */
 const registerTeacherSelector = root => {
 
@@ -162,7 +162,7 @@ const registerTeacherSelector = root => {
  * Initialise the timeline view navigation by adding event listeners to
  * the navigation elements.
  *
- * @param {object} root The root element for the myoverview block
+ * @param {object} root The root element for the mycourses block
  */
 export const init = root => {
     root = $(root);

@@ -14,30 +14,30 @@
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Manage the courses view for the overview block.
+ * Manage the courses view for My Courses block.
  *
  * @copyright  2018 Bas Brands <bas@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 import $ from 'jquery';
-import * as Repository from 'block_myoverview/repository';
+import * as Repository from 'block_mycourses/repository';
 import * as PagedContentFactory from 'core/paged_content_factory';
 import * as PubSub from 'core/pubsub';
 import * as CustomEvents from 'core/custom_interaction_events';
 import * as Notification from 'core/notification';
 import * as Templates from 'core/templates';
 import * as CourseEvents from 'core_course/events';
-import SELECTORS from 'block_myoverview/selectors';
+import SELECTORS from 'block_mycourses/selectors';
 import * as PagedContentEvents from 'core/paged_content_events';
 import * as Aria from 'core/aria';
 import {debounce} from 'core/utils';
 import {setUserPreference} from 'core_user/repository';
 
 const TEMPLATES = {
-    COURSES_CARDS: 'block_myoverview/view-cards',
-    COURSES_LIST: 'block_myoverview/view-list',
-    COURSES_SUMMARY: 'block_myoverview/view-summary',
+    COURSES_CARDS: 'block_mycourses/view-cards',
+    COURSES_LIST: 'block_mycourses/view-list',
+    COURSES_SUMMARY: 'block_mycourses/view-summary',
     NOCOURSES: 'core_course/no-courses'
 };
 
@@ -89,7 +89,7 @@ const getFilterValues = root => {
 const DEFAULT_PAGED_CONTENT_CONFIG = {
     ignoreControlWhileLoading: true,
     controlPlacementBottom: true,
-    persistentLimitKey: 'block_myoverview_user_paging_preference'
+    persistentLimitKey: 'block_mycourses_user_paging_preference'
 };
 
 /**
@@ -135,7 +135,7 @@ const getSearchMyCourses = (filters, limit, searchValue) => {
 /**
  * Get the container element for the favourite icon.
  *
- * @param {Object} root The course overview container
+ * @param {Object} root The container for My Courses
  * @param {Number} courseId Course id number
  * @return {Object} The favourite icon container
  */
@@ -146,7 +146,7 @@ const getFavouriteIconContainer = (root, courseId) => {
 /**
  * Get the paged content container element.
  *
- * @param {Object} root The course overview container
+ * @param {Object} root The container for My Courses
  * @param {Number} index Rendered page index.
  * @return {Object} The rendered paged container.
  */
@@ -185,7 +185,7 @@ const hideFavouriteIcon = (root, courseId) => {
 /**
  * Show the favourite icon.
  *
- * @param {Object} root The course overview container.
+ * @param {Object} root The container for My Courses.
  * @param {Number} courseId Course id number.
  */
 const showFavouriteIcon = (root, courseId) => {
@@ -203,7 +203,7 @@ const showFavouriteIcon = (root, courseId) => {
 /**
  * Get the action menu item
  *
- * @param {Object} root The course overview container
+ * @param {Object} root The container for My Courses
  * @param {Number} courseId Course id.
  * @return {Object} The add to favourite menu item.
  */
@@ -214,7 +214,7 @@ const getAddFavouriteMenuItem = (root, courseId) => {
 /**
  * Get the action menu item
  *
- * @param {Object} root The course overview container
+ * @param {Object} root The container for My Courses
  * @param {Number} courseId Course id.
  * @return {Object} The remove from favourites menu item.
  */
@@ -225,7 +225,7 @@ const getRemoveFavouriteMenuItem = (root, courseId) => {
 /**
  * Add course to favourites
  *
- * @param {Object} root The course overview container
+ * @param {Object} root The container for My Courses
  * @param {Number} courseId Course id number
  */
 const addToFavourites = (root, courseId) => {
@@ -248,7 +248,7 @@ const addToFavourites = (root, courseId) => {
 /**
  * Remove course from favourites
  *
- * @param {Object} root The course overview container
+ * @param {Object} root The container for My Courses
  * @param {Number} courseId Course id number
  */
 const removeFromFavourites = (root, courseId) => {
@@ -271,7 +271,7 @@ const removeFromFavourites = (root, courseId) => {
 /**
  * Get the action menu item
  *
- * @param {Object} root The course overview container
+ * @param {Object} root The container for My Courses
  * @param {Number} courseId Course id.
  * @return {Object} The hide course menu item.
  */
@@ -282,7 +282,7 @@ const getHideCourseMenuItem = (root, courseId) => {
 /**
  * Get the action menu item
  *
- * @param {Object} root The course overview container
+ * @param {Object} root The container for My Courses
  * @param {Number} courseId Course id.
  * @return {Object} The show course menu item.
  */
@@ -293,7 +293,7 @@ const getShowCourseMenuItem = (root, courseId) => {
 /**
  * Hide course
  *
- * @param {Object} root The course overview container
+ * @param {Object} root The container for My Courses
  * @param {Number} courseId Course id number
  */
 const hideCourse = (root, courseId) => {
@@ -316,7 +316,7 @@ const hideCourse = (root, courseId) => {
 /**
  * Show course
  *
- * @param {Object} root The course overview container
+ * @param {Object} root The container for My Courses
  * @param {Number} courseId Course id number
  */
 const showCourse = (root, courseId) => {
@@ -350,14 +350,14 @@ const setCourseHiddenState = (courseId, status) => {
         status = null;
     }
 
-    return setUserPreference(`block_myoverview_hidden_course_${courseId}`, status)
+    return setUserPreference(`block_mycourses_hidden_course_${courseId}`, status)
         .catch(Notification.exception);
 };
 
 /**
  * Get the action menu item
  *
- * @param {Object} root The course overview container
+ * @param {Object} root The container for My Courses
  * @param {Number} courseId Course id.
  * @return {Object} The make invisible course menu item.
  */
@@ -368,7 +368,7 @@ const getInvisibleCourseMenuItem = (root, courseId) => {
 /**
  * Get the action menu item
  *
- * @param {Object} root The course overview container
+ * @param {Object} root The container for My Courses
  * @param {Number} courseId Course id.
  * @return {Object} The make visible course menu item.
  */
@@ -379,7 +379,7 @@ const getVisibleCourseMenuItem = (root, courseId) => {
 /**
  * Make course invisible
  *
- * @param {Object} root The course overview container
+ * @param {Object} root The container for My Courses
  * @param {Number} courseId Course id number
  */
 const invisibleCourse = (root, courseId) => {
@@ -401,7 +401,7 @@ const invisibleCourse = (root, courseId) => {
 /**
  * Make course visible
  *
- * @param {Object} root The course overview container
+ * @param {Object} root The container for My Courses
  * @param {Number} courseId Course id number
  */
 const visibleCourse = (root, courseId) => {
@@ -454,7 +454,7 @@ const setCourseInvisibleState = (courseId, status) => {
 /**
  * Reset the loadedPages dataset to take into account the hidden element
  *
- * @param {Object} root The course overview container
+ * @param {Object} root The container for My Courses
  * @param {Number} id The course id number
  */
 const hideElement = (root, id) => {
@@ -632,7 +632,7 @@ const registerPagedEventHandlers = (root, namespace) => {
  * Figure out how many items are going to be allowed to be rendered in the block.
  *
  * @param  {Number} pagingLimit How many courses to display
- * @param  {Object} root The course overview container
+ * @param  {Object} root The container for My Courses
  * @return {Number[]} How many courses will be rendered
  */
 const itemsPerPageFunc = (pagingLimit, root) => {
@@ -827,9 +827,9 @@ const initializePagedContent = (root, promiseFunction, inputValue = null) => {
 };
 
 /**
- * Listen to, and handle events for the myoverview block.
+ * Listen to, and handle events for the mycourses block.
  *
- * @param {Object} root The myoverview block container element.
+ * @param {Object} root The mycourses block container element.
  * @param {HTMLElement} page The whole HTMLElement for our block.
  */
 const registerEventListeners = (root, page) => {
@@ -891,9 +891,9 @@ const registerEventListeners = (root, page) => {
 };
 
 /**
- * Listen to, and handle events for the myoverview block.
+ * Listen to, and handle events for the mycourses block.
  *
- * @param {Object} root The myoverview block container element.
+ * @param {Object} root The mycourses block container element.
  */
 const registerTeacherEventListeners = (root) => {
 
@@ -920,7 +920,7 @@ const registerTeacherEventListeners = (root) => {
  * Reset the search icon and trigger the init for the block.
  *
  * @param {HTMLElement} clearIcon Our closing icon to manipulate.
- * @param {Object} root The myoverview block container element.
+ * @param {Object} root The mycourses block container element.
  */
 export const clearSearch = (clearIcon, root) => {
     clearIcon.classList.add('d-none');
@@ -958,7 +958,7 @@ export const init = root => {
             registerTeacherEventListeners(root);
         }
 
-        namespace = "block_myoverview_" + root.attr('id') + "_" + Math.random();
+        namespace = "block_mycourses_" + root.attr('id') + "_" + Math.random();
         root.attr('data-init', true);
     }
 

@@ -15,9 +15,9 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template block_myoverview/view-summary
+    @template block_mycourses/view-summary
 
-    This template renders the list view for the myoverview block.
+    This template renders the list view for the mycourses block.
 
     Example context (json):
     {
@@ -25,7 +25,7 @@
             {
                 "name": "Assignment due 1",
                 "viewurl": "https://moodlesite/course/view.php?id=2",
-                "courseimage": "https://moodlesite/pluginfile/123/course/overviewfiles/123.jpg",
+                "courseimage": "https://moodlesite/pluginfile/123/course/mycoursesfiles/123.jpg",
                 "fullname": "course 3",
                 "summary": "This course is about assignments",
                 "hasprogress": true,
@@ -86,17 +86,17 @@
                     </div>
                 {{/visible}}
                 <div class="summary">
-                    <span class="sr-only">{{#str}}aria:coursesummary, block_myoverview{{/str}}</span>
+                    <span class="sr-only">{{#str}}aria:coursesummary, block_mycourses{{/str}}</span>
                     {{{summary}}}
                 </div>
                 {{#hasprogress}}
                     <div class="text-muted muted d-flex flex-wrap mt-auto">
-                        {{> block_myoverview/progress-bar}}
+                        {{> block_mycourses/progress-bar}}
                     </div>
                 {{/hasprogress}}
             </div>
             <div class="col-md-1 p-0 d-flex menu">
-                {{> block_myoverview/course-action-menu }}
+                {{> block_mycourses/course-action-menu }}
             </div>
         </div>
     </div>

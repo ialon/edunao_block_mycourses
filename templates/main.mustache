@@ -15,53 +15,53 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template block_myoverview/main
+    @template block_mycourses/main
 
-    This template renders the main content area for the myoverview block.
+    This template renders the main content area for the mycourses block.
 
     Example context (json):
     {}
 }}
 
-<div id="block-myoverview-{{uniqid}}" class="block-myoverview block-cards" data-region="myoverview" role="navigation">
+<div id="block-mycourses-{{uniqid}}" class="block-mycourses block-cards" data-region="mycourses" role="navigation">
     <hr class="mt-0"/>
 
-    <div role="search" data-region="filter" class="d-flex align-items-center my-2" aria-label="{{#str}} aria:controls, block_myoverview {{/str}}">
+    <div role="search" data-region="filter" class="d-flex align-items-center my-2" aria-label="{{#str}} aria:controls, block_mycourses {{/str}}">
         <div class="row no-gutters">
 
             {{^isteacher}}
-                {{> block_myoverview/nav-grouping-selector }}
+                {{> block_mycourses/nav-grouping-selector }}
             {{/isteacher}}
 
             {{^isteacher}}
-                {{> block_myoverview/nav-search-widget }}
+                {{> block_mycourses/nav-search-widget }}
             {{/isteacher}}
 
-            {{> block_myoverview/nav-sort-selector }}
+            {{> block_mycourses/nav-sort-selector }}
 
             {{^isteacher}}
                 {{#displaydropdown}}
-                    {{> block_myoverview/nav-display-selector }}
+                    {{> block_mycourses/nav-display-selector }}
                 {{/displaydropdown}}
             {{/isteacher}}
         </div>
     </div>
 
     <div class="container-fluid p-0">
-        {{> block_myoverview/courses-view }}
+        {{> block_mycourses/courses-view }}
     </div>
 </div>
 {{#js}}
 require(
 [
     'jquery',
-    'block_myoverview/main',
+    'block_mycourses/main',
 ],
 function(
     $,
     Main
 ) {
-    var root = $('#block-myoverview-{{uniqid}}');
+    var root = $('#block-mycourses-{{uniqid}}');
     Main.init(root);
 });
 {{/js}}

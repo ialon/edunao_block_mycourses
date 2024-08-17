@@ -15,7 +15,7 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template block_myoverview/nav-search-widget
+    @template block_mycourses/nav-search-widget
 
     This template renders the search input within the filters area.
 
@@ -25,7 +25,7 @@
 <div class="mb-1 mr-1 flex-grow-1">
     {{< core/search_input_auto }}
         {{$label}}{{#str}}
-            searchcourses, block_myoverview
+            searchcourses, block_mycourses
         {{/str}}{{/label}}
         {{$placeholder}}{{#str}}
             search, core

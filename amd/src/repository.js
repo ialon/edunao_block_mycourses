@@ -16,7 +16,7 @@
 /**
  * A javascript module to retrieve enrolled coruses from the server.
  *
- * @module block_myoverview/repository
+ * @module block_mycourses/repository
  * @copyright  2018 Bas Brands <base@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -38,7 +38,7 @@ import Ajax from 'core/ajax';
  */
 export const getEnrolledCoursesByRole = args => {
     const request = {
-        methodname: 'block_myoverview_get_enrolled_courses_by_role',
+        methodname: 'block_mycourses_get_enrolled_courses_by_role',
         args: args
     };
 
@@ -74,7 +74,7 @@ export const setFavouriteCourses = args => {
  */
 export const setInvisibilityCourse = args => {
     const request = {
-        methodname: 'block_myoverview_update_courses',
+        methodname: 'block_mycourses_update_courses',
         args: args
     };
 

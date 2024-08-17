@@ -15,7 +15,7 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template block_myoverview/course-action-menu
+    @template block_mycourses/course-action-menu
 
     This template renders action menu for each course.
 
@@ -30,8 +30,8 @@
         data-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false">
-        <i class="icon fa fa-ellipsis-v fa-fw m-0" title="{{#str}} aria:courseactions, block_myoverview {{/str}} {{{fullname}}}" aria-hidden="true"></i>
-        <span class="sr-only">{{#str}} aria:courseactions, block_myoverview {{/str}} {{{fullname}}}</span>
+        <i class="icon fa fa-ellipsis-v fa-fw m-0" title="{{#str}} aria:courseactions, block_mycourses {{/str}} {{{fullname}}}" aria-hidden="true"></i>
+        <span class="sr-only">{{#str}} aria:courseactions, block_mycourses {{/str}} {{{fullname}}}</span>
     </button>
     <div class="dropdown-menu dropdown-menu-right">
         {{#isteacher}}
@@ -40,9 +40,9 @@
                 data-course-id="{{id}}"
                 aria-controls="favorite-icon-{{ id }}-{{ uniqid }}"
                 >
-                {{#str}} visiblecourse, block_myoverview {{/str}}
+                {{#str}} visiblecourse, block_mycourses {{/str}}
                 <div class="sr-only">
-                    {{#str}} aria:visiblecourse, block_myoverview, {{fullname}} {{/str}}
+                    {{#str}} aria:visiblecourse, block_mycourses, {{fullname}} {{/str}}
                 </div>
             </a>
             <a class="dropdown-item {{^visible}}hidden{{/visible}}" href="#"
@@ -50,9 +50,9 @@
                 data-course-id="{{id}}"
                 aria-controls="favorite-icon-{{ id }}-{{ uniqid }}"
                 >
-                {{#str}} invisiblecourse, block_myoverview {{/str}}
+                {{#str}} invisiblecourse, block_mycourses {{/str}}
                 <div class="sr-only">
-                    {{#str}} aria:invisiblecourse, block_myoverview, {{fullname}} {{/str}}
+                    {{#str}} aria:invisiblecourse, block_mycourses, {{fullname}} {{/str}}
                 </div>
             </a>
         {{/isteacher}}
@@ -62,9 +62,9 @@
                 data-course-id="{{id}}"
                 aria-controls="favorite-icon-{{ id }}-{{ uniqid }}"
                 >
-                {{#str}} addtofavourites, block_myoverview {{/str}}
+                {{#str}} addtofavourites, block_mycourses {{/str}}
                 <div class="sr-only">
-                    {{#str}} aria:addtofavourites, block_myoverview {{/str}} {{{fullname}}}
+                    {{#str}} aria:addtofavourites, block_mycourses {{/str}} {{{fullname}}}
                 </div>
             </a>
             <a class="dropdown-item {{^isfavourite}}hidden{{/isfavourite}}" href="#"
@@ -72,9 +72,9 @@
                 data-course-id="{{id}}"
                 aria-controls="favorite-icon-{{ id }}-{{ uniqid }}"
                 >
-                {{#str}} removefromfavourites, block_myoverview {{/str}}
+                {{#str}} removefromfavourites, block_mycourses {{/str}}
                 <div class="sr-only">
-                    {{#str}} aria:removefromfavourites, block_myoverview {{/str}} {{{fullname}}}
+                    {{#str}} aria:removefromfavourites, block_mycourses {{/str}} {{{fullname}}}
                 </div>
             </a>
             <a class="dropdown-item {{^hidden}}hidden{{/hidden}}" href="#"
@@ -82,9 +82,9 @@
                 data-course-id="{{id}}"
                 aria-controls="favorite-icon-{{ id }}-{{ uniqid }}"
                 >
-                {{#str}} show, block_myoverview {{/str}}
+                {{#str}} show, block_mycourses {{/str}}
                 <div class="sr-only">
-                    {{#str}} aria:showcourse, block_myoverview, {{fullname}} {{/str}}
+                    {{#str}} aria:showcourse, block_mycourses, {{fullname}} {{/str}}
                 </div>
             </a>
             <a class="dropdown-item {{#hidden}}hidden{{/hidden}}" href="#"
@@ -92,9 +92,9 @@
                 data-course-id="{{id}}"
                 aria-controls="favorite-icon-{{ id }}-{{ uniqid }}"
                 >
-                {{#str}} hidecourse, block_myoverview {{/str}}
+                {{#str}} hidecourse, block_mycourses {{/str}}
                 <div class="sr-only">
-                    {{#str}} aria:hidecourse, block_myoverview, {{fullname}} {{/str}}
+                    {{#str}} aria:hidecourse, block_mycourses, {{fullname}} {{/str}}
                 </div>
             </a>
         {{/isteacher}}

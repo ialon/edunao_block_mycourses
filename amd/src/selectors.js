@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Javascript to initialise the selectors for the myoverview block.
+ * Javascript to initialise the selectors for the mycourses block.
  *
  * @copyright  2018 Peter Dias <peter@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -38,7 +38,7 @@ export default {
     ICON_IS_FAVOURITE: '[data-region="is-favourite"]',
     ICON_NOT_FAVOURITE: '[data-region="not-favourite"]',
     region: {
-        selectBlock: '[data-region="myoverview"]',
+        selectBlock: '[data-region="mycourses"]',
         clearIcon: '[data-action="clearsearch"]',
         searchInput: '[data-action="search"]',
     },

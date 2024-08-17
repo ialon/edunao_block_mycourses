@@ -15,7 +15,7 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template block_myoverview/nav-grouping-selector
+    @template block_mycourses/nav-grouping-selector
 
     This template renders grouping dropdown.
 
@@ -40,23 +40,23 @@
 }}
 {{#displaygroupingselector}}
 <div class="dropdown mb-1 mr-1">
-    <button id="groupingdropdown" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="{{#str}} aria:groupingdropdown, block_myoverview {{/str}}">
+    <button id="groupingdropdown" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="{{#str}} aria:groupingdropdown, block_mycourses {{/str}}">
         <span data-active-item-text>
-            {{#allincludinghidden}}{{#str}} allincludinghidden, block_myoverview {{/str}}{{/allincludinghidden}}
-            {{#all}}{{#str}} all, block_myoverview {{/str}}{{/all}}
-            {{#inprogress}}{{#str}} inprogress, block_myoverview {{/str}}{{/inprogress}}
-            {{#future}}{{#str}} future, block_myoverview {{/str}}{{/future}}
-            {{#past}}{{#str}} past, block_myoverview {{/str}}{{/past}}
-            {{#favourites}}{{#str}} favourites, block_myoverview {{/str}}{{/favourites}}
-            {{#hidden}}{{#str}} hiddencourses, block_myoverview {{/str}}{{/hidden}}
+            {{#allincludinghidden}}{{#str}} allincludinghidden, block_mycourses {{/str}}{{/allincludinghidden}}
+            {{#all}}{{#str}} all, block_mycourses {{/str}}{{/all}}
+            {{#inprogress}}{{#str}} inprogress, block_mycourses {{/str}}{{/inprogress}}
+            {{#future}}{{#str}} future, block_mycourses {{/str}}{{/future}}
+            {{#past}}{{#str}} past, block_mycourses {{/str}}{{/past}}
+            {{#favourites}}{{#str}} favourites, block_mycourses {{/str}}{{/favourites}}
+            {{#hidden}}{{#str}} hiddencourses, block_mycourses {{/str}}{{/hidden}}
             {{selectedcustomfield}}
         </span>
     </button>
     <ul class="dropdown-menu" role="menu" data-show-active-item data-skip-active-class="true" data-active-item-text aria-labelledby="groupingdropdown">
         {{#displaygroupingallincludinghidden}}
         <li>
-            <a class="dropdown-item" href="#" data-filter="grouping" data-value="allincludinghidden" data-pref="allincludinghidden" aria-label="{{#str}} aria:allcoursesincludinghidden, block_myoverview {{/str}}" aria-controls="courses-view-{{uniqid}}" role="menuitem" {{#allincludinghidden}}aria-current="true"{{/allincludinghidden}}>
-                {{#str}} allincludinghidden, block_myoverview {{/str}}
+            <a class="dropdown-item" href="#" data-filter="grouping" data-value="allincludinghidden" data-pref="allincludinghidden" aria-label="{{#str}} aria:allcoursesincludinghidden, block_mycourses {{/str}}" aria-controls="courses-view-{{uniqid}}" role="menuitem" {{#allincludinghidden}}aria-current="true"{{/allincludinghidden}}>
+                {{#str}} allincludinghidden, block_mycourses {{/str}}
             </a>
         </li>
         {{/displaygroupingallincludinghidden}}
@@ -65,8 +65,8 @@
             <span class="filler">&nbsp;</span>
         </li>
         <li>
-            <a class="dropdown-item" href="#" data-filter="grouping" data-value="all" data-pref="all" aria-label="{{#str}} aria:allcourses, block_myoverview {{/str}}" aria-controls="courses-view-{{uniqid}}" role="menuitem" {{#all}}aria-current="true"{{/all}}>
-                {{#str}} all, block_myoverview {{/str}}
+            <a class="dropdown-item" href="#" data-filter="grouping" data-value="all" data-pref="all" aria-label="{{#str}} aria:allcourses, block_mycourses {{/str}}" aria-controls="courses-view-{{uniqid}}" role="menuitem" {{#all}}aria-current="true"{{/all}}>
+                {{#str}} all, block_mycourses {{/str}}
             </a>
         </li>
         {{/displaygroupingall}}
@@ -75,8 +75,8 @@
             <span class="filler">&nbsp;</span>
         </li>
         <li>
-            <a class="dropdown-item" href="#" data-filter="grouping" data-value="inprogress" data-pref="inprogress" aria-label="{{#str}} aria:inprogress, block_myoverview {{/str}}" aria-controls="courses-view-{{uniqid}}" role="menuitem" {{#inprogress}}aria-current="true"{{/inprogress}}>
-                {{#str}} inprogress, block_myoverview {{/str}}
+            <a class="dropdown-item" href="#" data-filter="grouping" data-value="inprogress" data-pref="inprogress" aria-label="{{#str}} aria:inprogress, block_mycourses {{/str}}" aria-controls="courses-view-{{uniqid}}" role="menuitem" {{#inprogress}}aria-current="true"{{/inprogress}}>
+                {{#str}} inprogress, block_mycourses {{/str}}
             </a>
         </li>
         {{/displaygroupinginprogress}}
@@ -87,8 +87,8 @@
             </li>
             {{/displaygroupinginprogress}}
         <li>
-            <a class="dropdown-item" href="#" data-filter="grouping" data-value="future" data-pref="future" aria-label="{{#str}} aria:future, block_myoverview {{/str}}" aria-controls="courses-view-{{uniqid}}" role="menuitem" {{#future}}aria-current="true"{{/future}}>
-                {{#str}} future, block_myoverview {{/str}}
+            <a class="dropdown-item" href="#" data-filter="grouping" data-value="future" data-pref="future" aria-label="{{#str}} aria:future, block_mycourses {{/str}}" aria-controls="courses-view-{{uniqid}}" role="menuitem" {{#future}}aria-current="true"{{/future}}>
+                {{#str}} future, block_mycourses {{/str}}
             </a>
         </li>
         {{/displaygroupingfuture}}
@@ -101,8 +101,8 @@
                 {{/displaygroupingfuture}}
             {{/displaygroupinginprogress}}
         <li>
-            <a class="dropdown-item" href="#" data-filter="grouping" data-value="past" data-pref="past" aria-label="{{#str}} aria:past, block_myoverview {{/str}}" aria-controls="courses-view-{{uniqid}}" role="menuitem" {{#past}}aria-current="true"{{/past}}>
-                {{#str}} past, block_myoverview {{/str}}
+            <a class="dropdown-item" href="#" data-filter="grouping" data-value="past" data-pref="past" aria-label="{{#str}} aria:past, block_mycourses {{/str}}" aria-controls="courses-view-{{uniqid}}" role="menuitem" {{#past}}aria-current="true"{{/past}}>
+                {{#str}} past, block_mycourses {{/str}}
             </a>
         </li>
         {{/displaygroupingpast}}
@@ -114,7 +114,7 @@
                 <li>
                     <a class="dropdown-item" href="#" data-filter="grouping"
                        data-value="customfield" data-pref="customfield" data-customfieldvalue="{{value}}"
-                       aria-label="{{#str}}aria:customfield, block_myoverview, {{name}}{{/str}}"
+                       aria-label="{{#str}}aria:customfield, block_mycourses, {{name}}{{/str}}"
                        aria-controls="courses-view-{{uniqid}}" role="menuitem" {{#active}}aria-current="true"{{/active}}>
                         {{name}}
                     </a>
@@ -126,8 +126,8 @@
             <span class="filler">&nbsp;</span>
         </li>
         <li>
-            <a class="dropdown-item" href="#" data-filter="grouping" data-value="favourites"  data-pref="favourites" aria-label="{{#str}} aria:favourites, block_myoverview {{/str}}" aria-controls="courses-view-{{uniqid}}" role="menuitem" {{#favourites}}aria-current="true"{{/favourites}}>
-                {{#str}} favourites, block_myoverview {{/str}}
+            <a class="dropdown-item" href="#" data-filter="grouping" data-value="favourites"  data-pref="favourites" aria-label="{{#str}} aria:favourites, block_mycourses {{/str}}" aria-controls="courses-view-{{uniqid}}" role="menuitem" {{#favourites}}aria-current="true"{{/favourites}}>
+                {{#str}} favourites, block_mycourses {{/str}}
             </a>
         {{/displaygroupingfavourites}}
         {{#displaygroupinghidden}}
@@ -135,8 +135,8 @@
             <span class="filler">&nbsp;</span>
         </li>
         <li>
-            <a class="dropdown-item" href="#" data-filter="grouping" data-value="hidden"  data-pref="hidden" aria-label="{{#str}} aria:hiddencourses, block_myoverview {{/str}}" aria-controls="courses-view-{{uniqid}}" role="menuitem" {{#hidden}}aria-current="true"{{/hidden}}>
-                {{#str}} hiddencourses, block_myoverview {{/str}}
+            <a class="dropdown-item" href="#" data-filter="grouping" data-value="hidden"  data-pref="hidden" aria-label="{{#str}} aria:hiddencourses, block_mycourses {{/str}}" aria-controls="courses-view-{{uniqid}}" role="menuitem" {{#hidden}}aria-current="true"{{/hidden}}>
+                {{#str}} hiddencourses, block_mycourses {{/str}}
             </a>
         </li>
         {{/displaygroupinghidden}}

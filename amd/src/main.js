@@ -14,19 +14,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Javascript to initialise the myoverview block.
+ * Javascript to initialise the mycourses block.
  *
  * @copyright  2018 Bas Brands <bas@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-import * as View from 'block_myoverview/view';
-import * as ViewNav from 'block_myoverview/view_nav';
+import * as View from 'block_mycourses/view';
+import * as ViewNav from 'block_mycourses/view_nav';
 
 /**
- * Initialise all of the modules for the overview block.
+ * Initialise all of the modules for the My courses block.
  *
- * @param {object} root The root element for the overview block.
+ * @param {object} root The root element for the My courses block.
  */
 export const init = (root) => {
     // Initialise the course navigation elements.

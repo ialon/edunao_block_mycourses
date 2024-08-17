@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details for the My overview block.
+ * Version details for the My Courses block.
  *
- * @package    block_myoverview
+ * @package    block_mycourses
  * @copyright  Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,4 +26,4 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->version   = 2023100902;         // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires  = 2023100400;         // Requires this Moodle version.
-$plugin->component = 'block_myoverview'; // Full name of the plugin (used for diagnostics).
+$plugin->component = 'block_mycourses'; // Full name of the plugin (used for diagnostics).

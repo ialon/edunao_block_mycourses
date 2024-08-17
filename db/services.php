@@ -25,8 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $functions = array(
-    'block_myoverview_get_enrolled_courses_by_role' => array(
-        'classname' => 'block_myoverview\external',
+    'block_mycourses_get_enrolled_courses_by_role' => array(
+        'classname' => 'block_mycourses\external',
         'methodname' => 'get_enrolled_courses_by_role',
         'classpath' => '',
         'description' => 'List of courses a user is enroled in with a specific role.',
@@ -34,8 +34,8 @@ $functions = array(
         'ajax' => true,
         'services' => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
     ),
-    'block_myoverview_update_courses' => array(
-        'classname' => 'block_myoverview\external',
+    'block_mycourses_update_courses' => array(
+        'classname' => 'block_mycourses\external',
         'methodname' => 'update_courses',
         'classpath' => '',
         'description' => 'Update courses',

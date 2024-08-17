@@ -15,31 +15,31 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Contains the class for the My overview block.
+ * Contains the class for the My Courses block.
  *
- * @package    block_myoverview
+ * @package    block_mycourses
  * @copyright  Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/blocks/myoverview/lib.php');
+require_once($CFG->dirroot . '/blocks/mycourses/lib.php');
 
 /**
- * My overview block class.
+ * My Courses block class.
  *
- * @package    block_myoverview
+ * @package    block_mycourses
  * @copyright  Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class block_myoverview extends block_base {
+class block_mycourses extends block_base {
 
     /**
      * Init.
      */
     public function init() {
-        $this->title = get_string('pluginname', 'block_myoverview');
+        $this->title = get_string('pluginname', 'block_mycourses');
         $this->config = new stdClass();
     }
 
@@ -53,14 +53,14 @@ class block_myoverview extends block_base {
             return $this->content;
         }
         $config = $this->config;
-        $group = get_user_preferences('block_myoverview_user_grouping_preference');
-        $sort = get_user_preferences('block_myoverview_user_sort_preference');
-        $view = get_user_preferences('block_myoverview_user_view_preference');
-        $paging = get_user_preferences('block_myoverview_user_paging_preference');
-        $customfieldvalue = get_user_preferences('block_myoverview_user_grouping_customfieldvalue_preference');
+        $group = get_user_preferences('block_mycourses_user_grouping_preference');
+        $sort = get_user_preferences('block_mycourses_user_sort_preference');
+        $view = get_user_preferences('block_mycourses_user_view_preference');
+        $paging = get_user_preferences('block_mycourses_user_paging_preference');
+        $customfieldvalue = get_user_preferences('block_mycourses_user_grouping_customfieldvalue_preference');
 
-        $renderable = new \block_myoverview\output\main($config, $group, $sort, $view, $paging, $customfieldvalue);
-        $renderer = $this->page->get_renderer('block_myoverview');
+        $renderable = new \block_mycourses\output\main($config, $group, $sort, $view, $paging, $customfieldvalue);
+        $renderer = $this->page->get_renderer('block_mycourses');
 
         $this->content = new stdClass();
         $this->content->text = $renderer->render($renderable);
@@ -103,7 +103,7 @@ class block_myoverview extends block_base {
     public function specialization() {
         // Set default values for new instances.
         if (empty($this->config->myrole)) {
-            $this->config->myrole = BLOCK_MYOVERVIEW_ROLE_TEACHER;
+            $this->config->myrole = BLOCK_MYCOURSES_ROLE_TEACHER;
         }
     }
 
@@ -126,17 +126,17 @@ class block_myoverview extends block_base {
         $instanceconfig = $this->config;
 
         // Return all settings for all users since it is safe (no private keys, etc..).
-        $configs = get_config('block_myoverview');
+        $configs = get_config('block_mycourses');
 
         // Get the customfield values (if any).
         if ($configs->displaygroupingcustomfield) {
-            $group = get_user_preferences('block_myoverview_user_grouping_preference');
-            $sort = get_user_preferences('block_myoverview_user_sort_preference');
-            $view = get_user_preferences('block_myoverview_user_view_preference');
-            $paging = get_user_preferences('block_myoverview_user_paging_preference');
-            $customfieldvalue = get_user_preferences('block_myoverview_user_grouping_customfieldvalue_preference');
+            $group = get_user_preferences('block_mycourses_user_grouping_preference');
+            $sort = get_user_preferences('block_mycourses_user_sort_preference');
+            $view = get_user_preferences('block_mycourses_user_view_preference');
+            $paging = get_user_preferences('block_mycourses_user_paging_preference');
+            $customfieldvalue = get_user_preferences('block_mycourses_user_grouping_customfieldvalue_preference');
 
-            $renderable = new \block_myoverview\output\main($instanceconfig, $group, $sort, $view, $paging, $customfieldvalue);
+            $renderable = new \block_mycourses\output\main($instanceconfig, $group, $sort, $view, $paging, $customfieldvalue);
             $customfieldsexport = $renderable->get_customfield_values_for_export();
             if (!empty($customfieldsexport)) {
                 $configs->customfieldsexport = json_encode($customfieldsexport);

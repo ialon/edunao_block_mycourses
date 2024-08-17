@@ -15,9 +15,9 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template block_myoverview/view-cards
+    @template block_mycourses/view-cards
 
-    This template renders the cards view for the myoverview block.
+    This template renders the cards view for the mycourses block.
 
     Example context (json):
     {
@@ -25,7 +25,7 @@
             {
                 "name": "Assignment due 1",
                 "viewurl": "https://moodlesite/course/view.php?id=2",
-                "courseimage": "https://moodlesite/pluginfile/123/course/overviewfiles/123.jpg",
+                "courseimage": "https://moodlesite/pluginfile/123/course/mycoursesfiles/123.jpg",
                 "fullname": "Course 3 for \"Statistical and Computational Tools\" ",
                 "hasprogress": true,
                 "progress": 10,
@@ -39,13 +39,13 @@
 {{< core_course/coursecards }}
     {{$menu}}
         <div class="card-footer dashboard-card-footer menu border-0 bg-white ml-auto">
-            {{> block_myoverview/course-action-menu }}
+            {{> block_mycourses/course-action-menu }}
         </div>
     {{/menu}}
     {{$progress}}
         {{#hasprogress}}
             <div class="card-footer dashboard-card-footer border-0 bg-white w-100">
-                {{> block_myoverview/progress-bar}}
+                {{> block_mycourses/progress-bar}}
             </div>
         {{/hasprogress}}
     {{/progress}}

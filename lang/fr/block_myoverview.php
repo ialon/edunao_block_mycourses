@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Lang strings for the My overview block.
+ * Lang strings for the My Courses block.
  *
- * @package    block_myoverview
+ * @package    block_mycourses
  * @copyright  Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -63,14 +63,14 @@ $string['lastaccessed'] = 'Dernier accès';
 $string['layouts'] = 'Mises en page disponibles';
 $string['layouts_help'] = 'Mises en page de l\'aperçu du cours disponibles pour la sélection par les utilisateurs. Si aucune n\'est sélectionnée, la mise en page en cartes sera utilisée.';
 $string['list'] = 'Liste';
-$string['myoverview:myaddinstance'] = 'Ajouter un nouveau bloc d\'aperçu du cours au tableau de bord';
+$string['mycourses:myaddinstance'] = 'Ajouter un nouveau bloc d\'aperçu du cours au tableau de bord';
 $string['nocustomvalue'] = 'Aucun {$a}';
 $string['past'] = 'Passé';
 $string['pluginname'] = 'Aperçu du cours';
-$string['privacy:metadata:overviewsortpreference'] = 'La préférence de tri du bloc d\'aperçu du cours.';
-$string['privacy:metadata:overviewviewpreference'] = 'La préférence d\'affichage du bloc d\'aperçu du cours.';
-$string['privacy:metadata:overviewgroupingpreference'] = 'La préférence de regroupement du bloc d\'aperçu du cours.';
-$string['privacy:metadata:overviewpagingpreference'] = 'La préférence de pagination du bloc d\'aperçu du cours.';
+$string['privacy:metadata:mycoursessortpreference'] = 'La préférence de tri du bloc d\'aperçu du cours.';
+$string['privacy:metadata:mycoursesviewpreference'] = 'La préférence d\'affichage du bloc d\'aperçu du cours.';
+$string['privacy:metadata:mycoursesgroupingpreference'] = 'La préférence de regroupement du bloc d\'aperçu du cours.';
+$string['privacy:metadata:mycoursespagingpreference'] = 'La préférence de pagination du bloc d\'aperçu du cours.';
 $string['removefromfavourites'] = 'Retirer des favoris';
 $string['searchcourses'] = "Rechercher des cours";
 $string['shortname'] = 'Nom court';

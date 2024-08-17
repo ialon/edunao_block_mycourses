@@ -15,7 +15,7 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template block_myoverview/nav-display-selector
+    @template block_mycourses/nav-display-selector
 
     This template renders display dropdown.
 
@@ -28,11 +28,11 @@
 }}
 <div class="dropdown mb-1">
     <button id="displaydropdown" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-    aria-label="{{#str}} aria:displaydropdown, block_myoverview {{/str}}">
+    aria-label="{{#str}} aria:displaydropdown, block_mycourses {{/str}}">
         <span data-active-item-text>
-            {{#card}}{{#str}} card, block_myoverview {{/str}}{{/card}}
-            {{#list}}{{#str}} list, block_myoverview {{/str}}{{/list}}
-            {{#summary}}{{#str}} summary, block_myoverview {{/str}}{{/summary}}
+            {{#card}}{{#str}} card, block_mycourses {{/str}}{{/card}}
+            {{#list}}{{#str}} list, block_mycourses {{/str}}{{/list}}
+            {{#summary}}{{#str}} summary, block_mycourses {{/str}}{{/summary}}
         </span>
     </button>
     <ul class="dropdown-menu" role="menu" data-show-active-item data-skip-active-class="true" aria-labelledby="displaydropdown">

@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Lang strings for the My overview block.
+ * Lang strings for the My Courses block.
  *
- * @package    block_myoverview
+ * @package    block_mycourses
  * @copyright  Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,7 +29,7 @@ $string['aria:addtofavourites'] = 'Star for';
 $string['aria:allcoursesincludinghidden'] = 'Show all courses';
 $string['aria:allcourses'] = 'Show all courses except courses removed from view';
 $string['aria:card'] = 'Switch to card view';
-$string['aria:controls'] = 'Course overview controls';
+$string['aria:controls'] = 'My Courses controls';
 $string['aria:courseactions'] = 'Actions for course';
 $string['aria:coursesummary'] = 'Course summary text:';
 $string['aria:courseprogress'] = 'Course progress:';
@@ -61,16 +61,16 @@ $string['future'] = 'Future';
 $string['inprogress'] = 'In progress';
 $string['lastaccessed'] = 'Last accessed';
 $string['layouts'] = 'Available layouts';
-$string['layouts_help'] = 'Course overview layouts which are available for selection by users. If none are selected, the card layout will be used.';
+$string['layouts_help'] = 'My Courses layouts which are available for selection by users. If none are selected, the card layout will be used.';
 $string['list'] = 'List';
-$string['myoverview:myaddinstance'] = 'Add a new course overview block to Dashboard';
+$string['mycourses:myaddinstance'] = 'Add a new My Courses block to Dashboard';
 $string['nocustomvalue'] = 'No {$a}';
 $string['past'] = 'Past';
-$string['pluginname'] = 'Course overview';
-$string['privacy:metadata:overviewsortpreference'] = 'The Course overview block sort preference.';
-$string['privacy:metadata:overviewviewpreference'] = 'The Course overview block view preference.';
-$string['privacy:metadata:overviewgroupingpreference'] = 'The Course overview block grouping preference.';
-$string['privacy:metadata:overviewpagingpreference'] = 'The Course overview block paging preference.';
+$string['pluginname'] = 'My Courses';
+$string['privacy:metadata:mycoursessortpreference'] = 'The My Courses block sort preference.';
+$string['privacy:metadata:mycoursesviewpreference'] = 'The My Courses block view preference.';
+$string['privacy:metadata:mycoursesgroupingpreference'] = 'The My Courses block grouping preference.';
+$string['privacy:metadata:mycoursespagingpreference'] = 'The My Courses block paging preference.';
 $string['removefromfavourites'] = 'Unstar this course';
 $string['searchcourses'] = "Search courses";
 $string['shortname'] = 'Short name';

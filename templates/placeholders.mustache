@@ -15,9 +15,9 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template block_myoverview/placeholders
+    @template block_mycourses/placeholders
 
-    This template renders the loading placeholders for the myoverview block.
+    This template renders the loading placeholders for the mycourses block.
 
     Example context (json):
     {}
@@ -33,18 +33,18 @@
     {{/cards}}
     {{#list}}
         <ul class="list-group">
-            {{> block_myoverview/placeholder-course-list-item }}
-            {{> block_myoverview/placeholder-course-list-item }}
-            {{> block_myoverview/placeholder-course-list-item }}
-            {{> block_myoverview/placeholder-course-list-item }}
+            {{> block_mycourses/placeholder-course-list-item }}
+            {{> block_mycourses/placeholder-course-list-item }}
+            {{> block_mycourses/placeholder-course-list-item }}
+            {{> block_mycourses/placeholder-course-list-item }}
         </ul>
     {{/list}}
     {{#summary}}
         <ul class="list-group">
-            {{> block_myoverview/placeholder-course-list-item }}
-            {{> block_myoverview/placeholder-course-list-item }}
-            {{> block_myoverview/placeholder-course-list-item }}
-            {{> block_myoverview/placeholder-course-list-item }}
+            {{> block_mycourses/placeholder-course-list-item }}
+            {{> block_mycourses/placeholder-course-list-item }}
+            {{> block_mycourses/placeholder-course-list-item }}
+            {{> block_mycourses/placeholder-course-list-item }}
         </ul>
     {{/summary}}
 </div>

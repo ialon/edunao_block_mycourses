@@ -15,14 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy Subsystem implementation for block_myoverview.
+ * Privacy Subsystem implementation for block_mycourses.
  *
- * @package    block_myoverview
+ * @package    block_mycourses
  * @copyright  2018 Zig Tan <zig@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace block_myoverview\privacy;
+namespace block_mycourses\privacy;
 
 use core_privacy\local\request\user_preference_provider;
 use core_privacy\local\metadata\collection;
@@ -31,7 +31,7 @@ use \core_privacy\local\request\writer;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Privacy Subsystem for block_myoverview.
+ * Privacy Subsystem for block_mycourses.
  *
  * @copyright  2018 Zig Tan <zig@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -39,57 +39,57 @@ defined('MOODLE_INTERNAL') || die();
 class provider implements \core_privacy\local\metadata\provider, user_preference_provider {
 
     /**
-     * Returns meta-data information about the myoverview block.
+     * Returns meta-data information about the mycourses block.
      *
      * @param  \core_privacy\local\metadata\collection $collection A collection of meta-data.
      * @return \core_privacy\local\metadata\collection Return the collection of meta-data.
      */
     public static function get_metadata(collection $collection) : collection {
-        $collection->add_user_preference('block_myoverview_user_sort_preference', 'privacy:metadata:overviewsortpreference');
-        $collection->add_user_preference('block_myoverview_user_view_preference', 'privacy:metadata:overviewviewpreference');
-        $collection->add_user_preference('block_myoverview_user_grouping_preference',
-            'privacy:metadata:overviewgroupingpreference');
-        $collection->add_user_preference('block_myoverview_user_paging_preference',
-            'privacy:metadata:overviewpagingpreference');
+        $collection->add_user_preference('block_mycourses_user_sort_preference', 'privacy:metadata:mycoursessortpreference');
+        $collection->add_user_preference('block_mycourses_user_view_preference', 'privacy:metadata:mycoursesviewpreference');
+        $collection->add_user_preference('block_mycourses_user_grouping_preference',
+            'privacy:metadata:mycoursesgroupingpreference');
+        $collection->add_user_preference('block_mycourses_user_paging_preference',
+            'privacy:metadata:mycoursespagingpreference');
         return $collection;
     }
     /**
-     * Export all user preferences for the myoverview block
+     * Export all user preferences for the mycourses block
      *
      * @param int $userid The userid of the user whose data is to be exported.
      */
     public static function export_user_preferences(int $userid) {
-        $preference = get_user_preferences('block_myoverview_user_sort_preference', null, $userid);
+        $preference = get_user_preferences('block_mycourses_user_sort_preference', null, $userid);
         if (isset($preference)) {
-            writer::export_user_preference('block_myoverview',
-                'block_myoverview_user_sort_preference', get_string($preference, 'block_myoverview'),
-                get_string('privacy:metadata:overviewsortpreference', 'block_myoverview'));
+            writer::export_user_preference('block_mycourses',
+                'block_mycourses_user_sort_preference', get_string($preference, 'block_mycourses'),
+                get_string('privacy:metadata:mycoursessortpreference', 'block_mycourses'));
         }
 
-        $preference = get_user_preferences('block_myoverview_user_view_preference', null, $userid);
+        $preference = get_user_preferences('block_mycourses_user_view_preference', null, $userid);
         if (isset($preference)) {
-            writer::export_user_preference('block_myoverview',
-                'block_myoverview_user_view_preference',
-                get_string($preference, 'block_myoverview'),
-                get_string('privacy:metadata:overviewviewpreference', 'block_myoverview'));
+            writer::export_user_preference('block_mycourses',
+                'block_mycourses_user_view_preference',
+                get_string($preference, 'block_mycourses'),
+                get_string('privacy:metadata:mycoursesviewpreference', 'block_mycourses'));
         }
 
-        $preference = get_user_preferences('block_myoverview_user_grouping_preference', null, $userid);
+        $preference = get_user_preferences('block_mycourses_user_grouping_preference', null, $userid);
         if (isset($preference)) {
-            writer::export_user_preference('block_myoverview',
-                'block_myoverview_user_grouping_preference',
-                get_string($preference, 'block_myoverview'),
-                get_string('privacy:metadata:overviewgroupingpreference', 'block_myoverview'));
+            writer::export_user_preference('block_mycourses',
+                'block_mycourses_user_grouping_preference',
+                get_string($preference, 'block_mycourses'),
+                get_string('privacy:metadata:mycoursesgroupingpreference', 'block_mycourses'));
         }
 
         $preferences = get_user_preferences(null, null, $userid);
         foreach ($preferences as $name => $value) {
-            if ((substr($name, 0, 30) == 'block_myoverview_hidden_course')) {
+            if ((substr($name, 0, 30) == 'block_mycourses_hidden_course')) {
                 writer::export_user_preference(
-                    'block_myoverview',
+                    'block_mycourses',
                     $name,
                     $value,
-                    get_string('privacy:request:preference:set', 'block_myoverview', (object) [
+                    get_string('privacy:request:preference:set', 'block_mycourses', (object) [
                         'name' => $name,
                         'value' => $value,
                     ])
@@ -97,12 +97,12 @@ class provider implements \core_privacy\local\metadata\provider, user_preference
             }
         }
 
-        $preference = get_user_preferences('block_myoverview_user_paging_preference', null, $userid);
+        $preference = get_user_preferences('block_mycourses_user_paging_preference', null, $userid);
         if (isset($preference)) {
-            \core_privacy\local\request\writer::export_user_preference('block_myoverview',
-                'block_myoverview_user_paging_preference',
+            \core_privacy\local\request\writer::export_user_preference('block_mycourses',
+                'block_mycourses_user_paging_preference',
                 $preference,
-                get_string('privacy:metadata:overviewpagingpreference', 'block_myoverview'));
+                get_string('privacy:metadata:mycoursespagingpreference', 'block_mycourses'));
         }
     }
 }

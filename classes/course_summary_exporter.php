@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- namespace block_myoverview;
+ namespace block_mycourses;
 
  defined('MOODLE_INTERNAL') || die();
 
@@ -45,7 +45,7 @@ class course_summary_exporter extends \core_course\external\course_summary_expor
      */
     public function __construct($data, $related = array()) {
         if (!array_key_exists('role', $related)) {
-            $related['role'] = BLOCK_MYOVERVIEW_ROLE_STUDENT;
+            $related['role'] = BLOCK_MYCOURSES_ROLE_STUDENT;
         }
         parent::__construct($data, $related);
     }
@@ -63,7 +63,7 @@ class course_summary_exporter extends \core_course\external\course_summary_expor
         $values = parent::get_other_values($output);
         
         // Add isteacher value
-        $isteacher = $this->related['role'] === BLOCK_MYOVERVIEW_ROLE_TEACHER;
+        $isteacher = $this->related['role'] === BLOCK_MYCOURSES_ROLE_TEACHER;
         $values['isteacher'] = $isteacher;
 
         // Check if the user is a teacher to add KPI data
@@ -99,19 +99,19 @@ class course_summary_exporter extends \core_course\external\course_summary_expor
     public static function get_kpi_data($course) {
         // Count of student enrolments
         $enrolled = self::get_enrolled_users_count($course);
-        $enrolledstr = get_string('kpi:learners:enrolled', 'block_myoverview', $enrolled);
+        $enrolledstr = get_string('kpi:learners:enrolled', 'block_mycourses', $enrolled);
 
         // Dummy data:
         // Edtime: count of students who have started the course
-        $startedstr = get_string('kpi:learners:started', 'block_myoverview', 10);
+        $startedstr = get_string('kpi:learners:started', 'block_mycourses', 10);
 
         // Count of student completions
         $completed = self::get_completion_count($course);
-        $completedstr = get_string('kpi:learners:completed', 'block_myoverview', $completed);
+        $completedstr = get_string('kpi:learners:completed', 'block_mycourses', $completed);
 
         // Dummy data:
         // Local Sharecourse: number of course shares by students
-        $sharedstr = get_string('kpi:learners:shared', 'block_myoverview', 3);
+        $sharedstr = get_string('kpi:learners:shared', 'block_mycourses', 3);
 
         // Average grade of students who have completed the course
         $averagegrade = self::get_average_completion_grade($course);
@@ -127,7 +127,7 @@ class course_summary_exporter extends \core_course\external\course_summary_expor
 
         $data = [
             'learners' => [
-                'label' => get_string('kpi:learners', 'block_myoverview'),
+                'label' => get_string('kpi:learners', 'block_mycourses'),
                 'value' => [
                     $enrolledstr,
                     $startedstr,
@@ -137,17 +137,17 @@ class course_summary_exporter extends \core_course\external\course_summary_expor
             ]
         ];
         $data['timetocomplete'] = [
-            'label' => get_string('kpi:timetocomplete', 'block_myoverview'),
+            'label' => get_string('kpi:timetocomplete', 'block_mycourses'),
             'value' => $timetocomplete
         ];
         if ($completed > 0) {
             $data['completiongrade'] = [
-                'label' => get_string('kpi:completiongrade', 'block_myoverview'),
+                'label' => get_string('kpi:completiongrade', 'block_mycourses'),
                 'value' => $averagegradestr
             ];
         }
         $data['lastaccessed'] = [
-            'label' => get_string('kpi:lastaccessed', 'block_myoverview'),
+            'label' => get_string('kpi:lastaccessed', 'block_mycourses'),
             'value' => $lastaccessedstr
         ];
 

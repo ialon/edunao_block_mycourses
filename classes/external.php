@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace block_myoverview;
+namespace block_mycourses;
 
-use block_myoverview\course_summary_exporter;
+use block_mycourses\course_summary_exporter;
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
@@ -83,7 +83,7 @@ class external extends external_api {
     ) {
         global $CFG, $PAGE, $DB, $USER;
         require_once($CFG->dirroot . '/course/lib.php');
-        require_once($CFG->dirroot . '/blocks/myoverview/lib.php');
+        require_once($CFG->dirroot . '/blocks/mycourses/lib.php');
 
         $params = self::validate_parameters(self::get_enrolled_courses_by_role_parameters(),
             array(

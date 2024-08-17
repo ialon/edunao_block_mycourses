@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Library functions for overview.
+ * Library functions for my courses.
  *
- * @package   block_myoverview
+ * @package   block_mycourses
  * @copyright 2018 Peter Dias
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,55 +27,55 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Constants for the user preferences grouping options
  */
-define('BLOCK_MYOVERVIEW_GROUPING_ALLINCLUDINGHIDDEN', 'allincludinghidden');
-define('BLOCK_MYOVERVIEW_GROUPING_ALL', 'all');
-define('BLOCK_MYOVERVIEW_GROUPING_INPROGRESS', 'inprogress');
-define('BLOCK_MYOVERVIEW_GROUPING_FUTURE', 'future');
-define('BLOCK_MYOVERVIEW_GROUPING_PAST', 'past');
-define('BLOCK_MYOVERVIEW_GROUPING_FAVOURITES', 'favourites');
-define('BLOCK_MYOVERVIEW_GROUPING_HIDDEN', 'hidden');
-define('BLOCK_MYOVERVIEW_GROUPING_CUSTOMFIELD', 'customfield');
+define('BLOCK_MYCOURSES_GROUPING_ALLINCLUDINGHIDDEN', 'allincludinghidden');
+define('BLOCK_MYCOURSES_GROUPING_ALL', 'all');
+define('BLOCK_MYCOURSES_GROUPING_INPROGRESS', 'inprogress');
+define('BLOCK_MYCOURSES_GROUPING_FUTURE', 'future');
+define('BLOCK_MYCOURSES_GROUPING_PAST', 'past');
+define('BLOCK_MYCOURSES_GROUPING_FAVOURITES', 'favourites');
+define('BLOCK_MYCOURSES_GROUPING_HIDDEN', 'hidden');
+define('BLOCK_MYCOURSES_GROUPING_CUSTOMFIELD', 'customfield');
 
 /**
  * Allows selection of all courses without a value for the custom field.
  */
-define('BLOCK_MYOVERVIEW_CUSTOMFIELD_EMPTY', -1);
+define('BLOCK_MYCOURSES_CUSTOMFIELD_EMPTY', -1);
 
 /**
  * Constants for the user preferences sorting options
  * timeline
  */
-define('BLOCK_MYOVERVIEW_SORTING_TITLE', 'title');
-define('BLOCK_MYOVERVIEW_SORTING_LASTACCESSED', 'lastaccessed');
-define('BLOCK_MYOVERVIEW_SORTING_SHORTNAME', 'shortname');
+define('BLOCK_MYCOURSES_SORTING_TITLE', 'title');
+define('BLOCK_MYCOURSES_SORTING_LASTACCESSED', 'lastaccessed');
+define('BLOCK_MYCOURSES_SORTING_SHORTNAME', 'shortname');
 
 /**
  * Constants for the user preferences view options
  */
-define('BLOCK_MYOVERVIEW_VIEW_CARD', 'card');
-define('BLOCK_MYOVERVIEW_VIEW_LIST', 'list');
-define('BLOCK_MYOVERVIEW_VIEW_SUMMARY', 'summary');
+define('BLOCK_MYCOURSES_VIEW_CARD', 'card');
+define('BLOCK_MYCOURSES_VIEW_LIST', 'list');
+define('BLOCK_MYCOURSES_VIEW_SUMMARY', 'summary');
 
 /**
  * Constants for the user paging preferences
  */
-define('BLOCK_MYOVERVIEW_PAGING_5', 5);
-define('BLOCK_MYOVERVIEW_PAGING_10', 10);
-define('BLOCK_MYOVERVIEW_PAGING_15', 15);
-define('BLOCK_MYOVERVIEW_PAGING_20', 20);
-define('BLOCK_MYOVERVIEW_PAGING_ALL', 0);
+define('BLOCK_MYCOURSES_PAGING_5', 5);
+define('BLOCK_MYCOURSES_PAGING_10', 10);
+define('BLOCK_MYCOURSES_PAGING_15', 15);
+define('BLOCK_MYCOURSES_PAGING_20', 20);
+define('BLOCK_MYCOURSES_PAGING_ALL', 0);
 
 /**
  * Constants for the admin category display setting
  */
-define('BLOCK_MYOVERVIEW_DISPLAY_CATEGORIES_ON', 'on');
-define('BLOCK_MYOVERVIEW_DISPLAY_CATEGORIES_OFF', 'off');
+define('BLOCK_MYCOURSES_DISPLAY_CATEGORIES_ON', 'on');
+define('BLOCK_MYCOURSES_DISPLAY_CATEGORIES_OFF', 'off');
 
 /**
  * Constants for the user role
  */
-define('BLOCK_MYOVERVIEW_ROLE_TEACHER', 'teacher');
-define('BLOCK_MYOVERVIEW_ROLE_STUDENT', 'student');
+define('BLOCK_MYCOURSES_ROLE_TEACHER', 'teacher');
+define('BLOCK_MYCOURSES_ROLE_STUDENT', 'student');
 
 /**
  * Get the current user preferences that are available
@@ -84,56 +84,56 @@ define('BLOCK_MYOVERVIEW_ROLE_STUDENT', 'student');
  *
  * @return array[] Array representing current options along with defaults
  */
-function block_myoverview_user_preferences(): array {
-    $preferences['block_myoverview_user_grouping_preference'] = array(
+function block_mycourses_user_preferences(): array {
+    $preferences['block_mycourses_user_grouping_preference'] = array(
         'null' => NULL_NOT_ALLOWED,
-        'default' => BLOCK_MYOVERVIEW_GROUPING_ALL,
+        'default' => BLOCK_MYCOURSES_GROUPING_ALL,
         'type' => PARAM_ALPHA,
         'choices' => array(
-            BLOCK_MYOVERVIEW_GROUPING_ALLINCLUDINGHIDDEN,
-            BLOCK_MYOVERVIEW_GROUPING_ALL,
-            BLOCK_MYOVERVIEW_GROUPING_INPROGRESS,
-            BLOCK_MYOVERVIEW_GROUPING_FUTURE,
-            BLOCK_MYOVERVIEW_GROUPING_PAST,
-            BLOCK_MYOVERVIEW_GROUPING_FAVOURITES,
-            BLOCK_MYOVERVIEW_GROUPING_HIDDEN,
-            BLOCK_MYOVERVIEW_GROUPING_CUSTOMFIELD,
+            BLOCK_MYCOURSES_GROUPING_ALLINCLUDINGHIDDEN,
+            BLOCK_MYCOURSES_GROUPING_ALL,
+            BLOCK_MYCOURSES_GROUPING_INPROGRESS,
+            BLOCK_MYCOURSES_GROUPING_FUTURE,
+            BLOCK_MYCOURSES_GROUPING_PAST,
+            BLOCK_MYCOURSES_GROUPING_FAVOURITES,
+            BLOCK_MYCOURSES_GROUPING_HIDDEN,
+            BLOCK_MYCOURSES_GROUPING_CUSTOMFIELD,
         ),
         'permissioncallback' => [core_user::class, 'is_current_user'],
     );
 
-    $preferences['block_myoverview_user_grouping_customfieldvalue_preference'] = [
+    $preferences['block_mycourses_user_grouping_customfieldvalue_preference'] = [
         'null' => NULL_ALLOWED,
         'default' => null,
         'type' => PARAM_RAW,
         'permissioncallback' => [core_user::class, 'is_current_user'],
     ];
 
-    $preferences['block_myoverview_user_sort_preference'] = array(
+    $preferences['block_mycourses_user_sort_preference'] = array(
         'null' => NULL_NOT_ALLOWED,
-        'default' => BLOCK_MYOVERVIEW_SORTING_LASTACCESSED,
+        'default' => BLOCK_MYCOURSES_SORTING_LASTACCESSED,
         'type' => PARAM_ALPHA,
         'choices' => array(
-            BLOCK_MYOVERVIEW_SORTING_TITLE,
-            BLOCK_MYOVERVIEW_SORTING_LASTACCESSED,
-            BLOCK_MYOVERVIEW_SORTING_SHORTNAME
+            BLOCK_MYCOURSES_SORTING_TITLE,
+            BLOCK_MYCOURSES_SORTING_LASTACCESSED,
+            BLOCK_MYCOURSES_SORTING_SHORTNAME
         ),
         'permissioncallback' => [core_user::class, 'is_current_user'],
     );
 
-    $preferences['block_myoverview_user_view_preference'] = array(
+    $preferences['block_mycourses_user_view_preference'] = array(
         'null' => NULL_NOT_ALLOWED,
-        'default' => BLOCK_MYOVERVIEW_VIEW_CARD,
+        'default' => BLOCK_MYCOURSES_VIEW_CARD,
         'type' => PARAM_ALPHA,
         'choices' => array(
-            BLOCK_MYOVERVIEW_VIEW_CARD,
-            BLOCK_MYOVERVIEW_VIEW_LIST,
-            BLOCK_MYOVERVIEW_VIEW_SUMMARY
+            BLOCK_MYCOURSES_VIEW_CARD,
+            BLOCK_MYCOURSES_VIEW_LIST,
+            BLOCK_MYCOURSES_VIEW_SUMMARY
         ),
         'permissioncallback' => [core_user::class, 'is_current_user'],
     );
 
-    $preferences['/^block_myoverview_hidden_course_(\d)+$/'] = array(
+    $preferences['/^block_mycourses_hidden_course_(\d)+$/'] = array(
         'isregex' => true,
         'choices' => array(0, 1),
         'type' => PARAM_INT,
@@ -142,16 +142,16 @@ function block_myoverview_user_preferences(): array {
         'permissioncallback' => [core_user::class, 'is_current_user'],
     );
 
-    $preferences['block_myoverview_user_paging_preference'] = array(
+    $preferences['block_mycourses_user_paging_preference'] = array(
         'null' => NULL_NOT_ALLOWED,
-        'default' => BLOCK_MYOVERVIEW_PAGING_5,
+        'default' => BLOCK_MYCOURSES_PAGING_5,
         'type' => PARAM_INT,
         'choices' => array(
-            BLOCK_MYOVERVIEW_PAGING_5,
-            BLOCK_MYOVERVIEW_PAGING_10,
-            BLOCK_MYOVERVIEW_PAGING_15,
-            BLOCK_MYOVERVIEW_PAGING_20,
-            BLOCK_MYOVERVIEW_PAGING_ALL
+            BLOCK_MYCOURSES_PAGING_5,
+            BLOCK_MYCOURSES_PAGING_10,
+            BLOCK_MYCOURSES_PAGING_15,
+            BLOCK_MYCOURSES_PAGING_20,
+            BLOCK_MYCOURSES_PAGING_ALL
         ),
         'permissioncallback' => [core_user::class, 'is_current_user'],
     );
@@ -164,7 +164,7 @@ function block_myoverview_user_preferences(): array {
  *
  * @param stdClass $course The deleted course
  */
-function block_myoverview_pre_course_delete(\stdClass $course) {
+function block_mycourses_pre_course_delete(\stdClass $course) {
     // Removing any favourited courses which have been created for users, for this course.
     $service = \core_favourites\service_factory::get_service_for_component('core_course');
     $service->delete_favourites_by_type_and_item('courses', $course->id);
@@ -206,9 +206,9 @@ function filter_courses_by_role($courses, $role, $userid) {
     global $DB;
 
     // Find the archetype for the role.
-    if ($role === BLOCK_MYOVERVIEW_ROLE_TEACHER) {
+    if ($role === BLOCK_MYCOURSES_ROLE_TEACHER) {
         $archetypes = ['editingteacher', 'teacher'];
-    } else if ($role === BLOCK_MYOVERVIEW_ROLE_STUDENT) {
+    } else if ($role === BLOCK_MYCOURSES_ROLE_STUDENT) {
         $archetypes = ['student'];
     } else {
         return [];

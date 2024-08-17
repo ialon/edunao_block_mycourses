@@ -15,29 +15,29 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * myoverview block rendrer
+ * mycourses block rendrer
  *
- * @package    block_myoverview
+ * @package    block_mycourses
  * @copyright  2016 Ryan Wyllie <ryan@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-namespace block_myoverview\output;
+namespace block_mycourses\output;
 defined('MOODLE_INTERNAL') || die;
 
 use plugin_renderer_base;
 use renderable;
 
 /**
- * myoverview block renderer
+ * mycourses block renderer
  *
- * @package    block_myoverview
+ * @package    block_mycourses
  * @copyright  2016 Ryan Wyllie <ryan@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class renderer extends plugin_renderer_base {
 
     /**
-     * Return the main content for the block overview.
+     * Return the main content for the block My Courses.
      *
      * @param main $main The main renderable
      * @return string HTML string
@@ -48,6 +48,6 @@ class renderer extends plugin_renderer_base {
         if (!count(enrol_get_all_users_courses($USER->id, true))) {
             return NULL;
         }
-        return $this->render_from_template('block_myoverview/main', $main->export_for_template($this));
+        return $this->render_from_template('block_mycourses/main', $main->export_for_template($this));
     }
 }

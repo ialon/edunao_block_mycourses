@@ -22,18 +22,18 @@
  * @author     Josemaria Bolanos <josemabol@gmail.com>
  */
 
-class block_myoverview_edit_form extends block_edit_form {
+class block_mycourses_edit_form extends block_edit_form {
     protected function specific_definition($mform) {
         if (is_siteadmin()) {
             $mform->addElement('header', 'configheader', get_string('blocksettings', 'block'));
     
             $options = array(
-                BLOCK_MYOVERVIEW_ROLE_TEACHER => get_string('teacher', 'block_myoverview'),
-                BLOCK_MYOVERVIEW_ROLE_STUDENT => get_string('student', 'block_myoverview')
+                BLOCK_MYCOURSES_ROLE_TEACHER => get_string('teacher', 'block_mycourses'),
+                BLOCK_MYCOURSES_ROLE_STUDENT => get_string('student', 'block_mycourses')
             );
     
-            $mform->addElement('select', 'config_myrole', get_string('displayrole', 'block_myoverview'), $options);
-            $mform->setDefault('config_myrole', BLOCK_MYOVERVIEW_ROLE_TEACHER);
+            $mform->addElement('select', 'config_myrole', get_string('displayrole', 'block_mycourses'), $options);
+            $mform->setDefault('config_myrole', BLOCK_MYCOURSES_ROLE_TEACHER);
         }
     }
 }
