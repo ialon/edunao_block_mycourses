@@ -122,7 +122,11 @@ class course_summary_exporter extends \core_course\external\course_summary_expor
 
         // Last time the course was accessed
         $lastaccessed = self::get_last_accessed($course);
-        $lastaccessedstr = get_string('ago', 'core_message', format_time(time() - $lastaccessed));
+        if ($lastaccessed === null) {
+            $lastaccessedstr = get_string('never');
+        } else {
+            $lastaccessedstr = get_string('ago', 'core_message', format_time(time() - $lastaccessed));
+        }
 
         $data = [
             'learners' => [
@@ -230,10 +234,20 @@ class course_summary_exporter extends \core_course\external\course_summary_expor
     public static function get_last_accessed($course) {
         global $DB;
 
-        $sql = "SELECT MAX(timeaccess) AS lastaccess
-                  FROM {user_lastaccess}
-                 WHERE courseid = :courseid";
-        $lastaccess = $DB->get_field_sql($sql, ['courseid' => $course->id]); 
+        $context = \context_course::instance($course->id);
+
+        // Get the role ids for the archetypes.
+        $roleids = $DB->get_records_menu('role', ['archetype' => 'student'], '', 'id, shortname');
+        list($insql, $params) = $DB->get_in_or_equal(array_keys($roleids), SQL_PARAMS_NAMED, 'e');
+
+        $sql = "SELECT MAX(ula.timeaccess)
+                  FROM {role_assignments} ra
+             LEFT JOIN {user_lastaccess} ula ON ula.userid = ra.userid
+                 WHERE ra.roleid $insql AND ra.contextid = :contextid AND ula.courseid = :courseid";
+        $params['contextid'] = $context->id;
+        $params['courseid'] = $course->id;
+
+        $lastaccess = $DB->get_field_sql($sql, $params); 
 
         return $lastaccess;
     }
