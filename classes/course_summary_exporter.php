@@ -27,7 +27,6 @@
  defined('MOODLE_INTERNAL') || die();
 
 use renderer_base;
-use moodle_url;
 
 /**
  * Class for exporting a course summary from an stdClass.
@@ -175,11 +174,18 @@ class course_summary_exporter extends \core_course\external\course_summary_expor
     public static function get_enrolled_users_count($course) {
         global $DB;
 
+        $context = \context_course::instance($course->id);
+
+        // Get the role ids for the archetypes.
+        $roleids = $DB->get_records_menu('role', ['archetype' => 'student'], '', 'id, shortname');
+        list($insql, $params) = $DB->get_in_or_equal(array_keys($roleids), SQL_PARAMS_NAMED, 'e');
+
         $sql = "SELECT COUNT(DISTINCT ue.userid)
-                FROM {user_enrolments} ue
-                JOIN {enrol} e ON e.id = ue.enrolid
-                WHERE e.courseid = :courseid";
-        $count = $DB->count_records_sql($sql, ['courseid' => $course->id]);
+                  FROM {user_enrolments} ue
+             LEFT JOIN {role_assignments} ra ON ra.userid = ue.userid
+                 WHERE ra.roleid $insql AND ra.contextid = :contextid";
+        $params['contextid'] = $context->id;
+        $count = $DB->count_records_sql($sql, $params);
 
         return $count;
     }
@@ -194,9 +200,9 @@ class course_summary_exporter extends \core_course\external\course_summary_expor
         global $DB;
 
         $sql = "SELECT COUNT(DISTINCT cc.userid)
-                FROM {course_completions} cc
-                WHERE cc.course = :courseid
-                AND cc.timecompleted IS NOT NULL";
+                  FROM {course_completions} cc
+                 WHERE cc.course = :courseid
+                   AND cc.timecompleted IS NOT NULL";
         $count = $DB->count_records_sql($sql, ['courseid' => $course->id]);
 
         return $count;
@@ -225,8 +231,8 @@ class course_summary_exporter extends \core_course\external\course_summary_expor
         global $DB;
 
         $sql = "SELECT MAX(timeaccess) AS lastaccess
-                FROM {user_lastaccess}
-                WHERE courseid = :courseid";
+                  FROM {user_lastaccess}
+                 WHERE courseid = :courseid";
         $lastaccess = $DB->get_field_sql($sql, ['courseid' => $course->id]); 
 
         return $lastaccess;
