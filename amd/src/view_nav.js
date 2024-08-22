@@ -62,6 +62,9 @@ const updatePreferences = (root, filter, value) => {
  */
 const registerSelector = root => {
 
+    const courseRegion = root.find(SELECTORS.courseView.region);
+    let role = courseRegion.attr('data-user-role');
+
     const Selector = root.find(SELECTORS.FILTERS);
 
     CustomEvents.define(Selector, [CustomEvents.events.activate]);
@@ -106,61 +109,28 @@ const registerSelector = root => {
         }
     );
 
-    Selector.on(
-        CustomEvents.events.activate,
-        SELECTORS.DISPLAY_OPTION,
-        (e, data) => {
-            const option = $(e.target);
+    // Teachers do not have display options
+    if (role !== 'teacher') {
+        Selector.on(
+            CustomEvents.events.activate,
+            SELECTORS.DISPLAY_OPTION,
+            (e, data) => {
+                const option = $(e.target);
 
-            if (option.hasClass('active')) {
-                return;
+                if (option.hasClass('active')) {
+                    return;
+                }
+
+                const filter = option.attr('data-display-option');
+                const pref = option.attr('data-pref');
+
+                root.find(SELECTORS.courseView.region).attr('data-display', option.attr('data-value'));
+                updatePreferences(root, filter, pref);
+                View.reset(root);
+                data.originalEvent.preventDefault();
             }
-
-            const filter = option.attr('data-display-option');
-            const pref = option.attr('data-pref');
-
-            root.find(SELECTORS.courseView.region).attr('data-display', option.attr('data-value'));
-            updatePreferences(root, filter, pref);
-            View.reset(root);
-            data.originalEvent.preventDefault();
-        }
-    );
-};
-
-/**
- * Event listener for the sort selector
- *
- * @param {object} root The root element for the My Courses block
- */
-const registerTeacherSelector = root => {
-
-    const Selector = root.find(SELECTORS.FILTERS);
-
-    CustomEvents.define(Selector, [CustomEvents.events.activate]);
-
-    Selector.on(
-        CustomEvents.events.activate,
-        SELECTORS.FILTER_OPTION,
-        (e, data) => {
-            const option = $(e.target);
-
-            if (option.hasClass('active')) {
-                // If it's already active then we don't need to do anything.
-                return;
-            }
-
-            const filter = option.attr('data-filter');
-            const pref = option.attr('data-pref');
-
-            root.find(SELECTORS.courseView.region).attr('data-' + filter, option.attr('data-value'));
-            updatePreferences(root, filter, pref);
-
-            // Reset the views.
-            View.init(root);
-
-            data.originalEvent.preventDefault();
-        }
-    );
+        );
+    }
 };
 
 /**
@@ -171,14 +141,5 @@ const registerTeacherSelector = root => {
  */
 export const init = root => {
     root = $(root);
-
-    const courseRegion = root.find(SELECTORS.courseView.region);
-    let role = courseRegion.attr('data-user-role');
-
-    if (role !== 'teacher') {
-        registerSelector(root);
-    } else {
-        // Only sort is available for teachers.
-        registerTeacherSelector(root);
-    }
+    registerSelector(root);
 };

@@ -898,8 +898,9 @@ const registerEventListeners = (root, page) => {
  * Listen to, and handle events for the mycourses block.
  *
  * @param {Object} root The mycourses block container element.
+ * @param {HTMLElement} page The whole HTMLElement for our block.
  */
-const registerTeacherEventListeners = (root) => {
+const registerTeacherEventListeners = (root, page) => {
 
     CustomEvents.define(root, [
         CustomEvents.events.activate
@@ -918,6 +919,25 @@ const registerTeacherEventListeners = (root) => {
         visibleCourse(root, courseId);
         data.originalEvent.preventDefault();
     });
+
+    // Searching functionality event handlers.
+    const input = page.querySelector(SELECTORS.region.searchInput);
+    const clearIcon = page.querySelector(SELECTORS.region.clearIcon);
+
+    clearIcon.addEventListener('click', () => {
+        input.value = '';
+        input.focus();
+        clearSearch(clearIcon, root);
+    });
+
+    input.addEventListener('input', debounce(() => {
+        if (input.value === '') {
+            clearSearch(clearIcon, root);
+        } else {
+            activeSearch(clearIcon);
+            initializePagedContent(root, searchFunctionalityCurry(root), input.value.trim());
+        }
+    }, 1000));
 };
 
 /**
@@ -957,11 +977,11 @@ export const init = root => {
     let role = courseRegion.attr('data-user-role');
 
     if (!root.attr('data-init')) {
+        const page = document.querySelector('#' + root.attr('id') + SELECTORS.region.selectBlock);
         if (role !== ROLE_TEACHER) {
-            const page = document.querySelector('#' + root.attr('id') + SELECTORS.region.selectBlock);
             registerEventListeners(root, page);
         } else {
-            registerTeacherEventListeners(root);
+            registerTeacherEventListeners(root, page);
         }
 
         instances[root.attr('id')]['namespace'] = "block_mycourses_" + root.attr('id') + "_" + Math.random();
