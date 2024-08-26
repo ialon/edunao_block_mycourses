@@ -105,6 +105,7 @@ class block_mycourses extends block_base {
         if (empty($this->config->myrole)) {
             $this->config->myrole = BLOCK_MYCOURSES_ROLE_TEACHER;
         }
+        $this->title = get_string('blocktitle:' . $this->config->myrole, 'block_mycourses');
         $this->config->instance = $this->instance->id;
     }
 
